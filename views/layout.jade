@@ -3,10 +3,11 @@ html(lang="en")
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+  body(ng-app="blog")
     block body
 
-    script(src='javascripts/lib/angular/angular.min.js')
+    script(src='/bower_components/angular/angular.js')
+    script(src='/bower_components/angular-route/angular-route.min.js')
     script(src='javascripts/app.js')
     script(src='javascripts/services.js')
     script(src='javascripts/controllers.js')
