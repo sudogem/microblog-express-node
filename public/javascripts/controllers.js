@@ -60,6 +60,8 @@ controller('DeletePostController', function($scope, $routeParams, $http, $locati
     $http.delete('/posts/'+id).
       success(function(data, status, headers, config) {
       console.log('data:', data);
+      flash.setMessage(data.msg);
+      $location.url('/');
       });
   };
 
