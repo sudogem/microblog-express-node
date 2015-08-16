@@ -1,3 +1,7 @@
+
+var Post = require('../models/post');
+
+
 // initialize our faux database
 var data = {
   "posts": [
@@ -28,7 +32,7 @@ exports.posts = function(req, res) {
     posts.push({
       id: i,
       title: post.title,
-      text: post.text.substr(0, 50) + '...'
+      text: post.text
     });
   });
   res.json({
@@ -53,9 +57,35 @@ exports.edit_post = function(req, res) {
 exports.add_post = function(req, res) {
   console.log('------------------------------------------');
   console.log('CALL exports.add_post');
-  console.log('params:', req.body);
-  data.posts.push(req.body);
-  res.json({msg: 'Successfully created post.'});
+  var tmpdata = req.body;
+  var succeed = true;
+  console.log('params:', tmpdata);
+  var p = new Post(tmpdata);
+  if (p.validation() == false) {
+
+  } else {
+
+  }
+
+  if (tmpdata === undefined) {
+    res.json({msg: 'Error: Missing fields.'});
+    succeed = false;
+  }
+
+  if (tmpdata.title === undefined) {
+    res.json({msg: 'Error: Title is required.'});
+    succeed = false;
+  }
+
+  if (tmpdata.text === undefined) {
+    res.json({msg: 'Error: Message is required.'});
+    succeed = false;
+  }
+
+  if (succeed) {
+    data.posts.push(req.body);
+    res.json({msg: 'Successfully created post.'});    
+  }
 };
 
 exports.update_post = function(req, res) {

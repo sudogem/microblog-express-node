@@ -3,6 +3,9 @@
 div(ng-show="flash.getMessage()")
   p {{flash.getMessage()}}
 
+div(ng-if="(total == 0)")
+  p No post found.
+
 div(ng-if="(total > 0)")
   p There are {{total}} posts
   div(class='entry', ng-repeat='post in posts')

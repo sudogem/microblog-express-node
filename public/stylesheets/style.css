@@ -14,3 +14,9 @@ h3 {
 a {
   color: #00B7FF;
 }
+
+.main {
+  margin: 0 auto;
+  width: 50%;
+  border: 1px solid #ccc;
+}
