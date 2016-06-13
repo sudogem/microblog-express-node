@@ -1,13 +1,12 @@
 language: node_js
 node_js:
   - '4'
+
+before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get -qq update
+  - sudo apt-get -qq install g++-4.8
 env:
-  - CXX=gcc-4.6.3
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-4.6.3
+  - CXX=g++-4.8
 notifications:
   slack: pragmaticprogrammers:vPa5atxnsbHS6dTEuAAsnSxy
