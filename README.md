@@ -24,6 +24,8 @@ $ cd <APP DIR> e.g $ cd microblog-express-node/
 $ cf create-service mysql 100 mysql-db    
 $ cf push app_name -m 512m   
 
+Sample live preview: http://nodeblog-v1.mybluemix.net/#/   
+
 #### Technology stacks:   
 * node.js   
 * ExpressJS
