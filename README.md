@@ -13,6 +13,12 @@ $ cd microblog-express-node
 $ npm install   
 $ npm start   
 
+#### How to run ALL the test:     
+$ npm test    
+
+#### How to run a single file to test:     
+$ mocha test/{Filename}.js    
+
 #### How to deploy to Bluemix:   
 Signup Bluemix account here [https://console.ng.bluemix.net/registration]   
 $ bluemix api https://api.ng.bluemix.net   
