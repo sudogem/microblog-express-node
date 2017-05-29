@@ -5,9 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var jade = require('jade');
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var api = require('./routes/api');
 var settings = require('./settings');
 
 var app = express();
@@ -26,21 +23,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
-// routes
-// app.use('/', routes);
-// app.use('/users', users);
-// app.get('/posts', api.posts);
-// app.get('/posts/:id', api.edit_post);
-// app.put('/posts/:id', api.update_post);
-
-// app.post('/posts', api.add_post);
-// app.delete('/posts/:id', api.delete_post);
-
 //Routes/Controllers for the views
 // require('./routes')(app, passport);
 require('./routes')(app);
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -77,6 +62,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
