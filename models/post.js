@@ -1,27 +1,43 @@
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var Promise = require('bluebird');
+var moment = require('moment');
 
-function Posts(post) {
-  this.post = post;
-
-  var fields = [
-    { title: { required: true }},
-    { text: { required: true }}
-  ];
-
-  // var validation = function() {
-
-  // }
-
-  Posts.prototype.validation = function() {
-    console.log('validation!');
-    console.log(this.post);
-    console.log(fields.length);
-
-    for(i=0; i < fields.length; i++) {
-      console.log(fields[i]);
-      
-    }
-
+var postSchema = {
+  title: {
+    type: String,
+    required: [true, 'Post Title is required.'],
+  },
+  body: {
+    type: String,
+    required: [true, 'Post Body is required.'],
+  },
+  created_at: {
+    type: Date,
+    default: new Date(moment.utc())
+  },
+  updated_at: {
+    type: Date,
+    default: new Date(moment.utc())
   }
 }
 
-module.exports = Posts;
+var PostSchema = new Schema(postSchema);
+var Post = mongoose.model('posts', PostSchema);
+
+var post = {
+  create: function(postData) {
+    return new Promise(function(resolve, reject) {
+      // return Post.create(postData); // invalid calling
+      Post.create(postData)
+        .then(function(result) {
+          resolve(result);
+        })
+        .catch( /* istanbul ignore next */ function(err){
+          return reject(err);
+        });
+    });
+  }
+};
+
+module.exports = post;

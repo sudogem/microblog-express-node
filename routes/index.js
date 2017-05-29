@@ -1,17 +1,20 @@
-var express = require('express');
-var router = express.Router();
+var fs = require('fs');
+var settings = require('../settings');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  // res.render('index', { title: 'Express', layout:false });
-  var posts = [];
-  res.render('index');
-});
+var render = function(req, res, file, json) {
+  json['siteTitle'] = 'Blog app';
+  json['user'] = req.session.user;
+  json['userEmail'] = req.user;
+  return res.render(file, json);
+};
 
-// lets render the jade file into HTML
-router.get('/partials/:name', function(req, res) { 
-  var name = req.params.name;
-  res.render('partials/' + name);
-});
+module.exports = function(app) {
+  var includes = {
+    render: render
+  };
 
-module.exports = router;
+  fs.readdirSync('./routes/api').forEach(function(file) {
+  	console.log('Successfully loaded route file:',file);
+    require('./api/' + file)(app, includes);
+  });
+};
