@@ -9,6 +9,8 @@ env:
 notifications:
   slack: pragmaticprogrammers:vPa5atxnsbHS6dTEuAAsnSxy
 deploy:
-  provider: cloudfoundry
+  provider: script
+  script: echo "Deployment disabled"
+  skip_cleanup: true
   on:
     repo: sudogem/microblog-express-node
