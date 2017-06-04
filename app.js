@@ -27,6 +27,9 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
 // require('./routes')(app, passport);
 require('./routes')(app);
 
+var home = require('./routes/home');
+app.use('/', home);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

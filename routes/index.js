@@ -14,7 +14,7 @@ module.exports = function(app) {
   };
 
   fs.readdirSync('./routes/api').forEach(function(file) {
-  	console.log('Successfully loaded route file:',file);
+    console.log('Successfully loaded route api/'+file);
     require('./api/' + file)(app, includes);
   });
 };

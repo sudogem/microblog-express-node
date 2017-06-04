@@ -33,9 +33,30 @@ var post = {
         .then(function(result) {
           resolve(result);
         })
-        .catch( /* istanbul ignore next */ function(err){
+        .catch(function(err){
           return reject(err);
         });
+    });
+  },
+  get: function(postId) {
+    return new Promise(function(resolve, reject) {
+      if (postId) {
+        Post.findOne({_id: postId}).exec()
+          .then(function(result) {
+            resolve(result);
+          })
+          .catch(function(err){
+            return reject(err);
+          });
+      } else {
+        Post.find().exec()
+        .then(function(result){
+          resolve(result);
+        })
+        .catch(function(err){
+          reject({'error':err});
+        });
+      }
     });
   }
 };
