@@ -30,6 +30,14 @@ require('./routes')(app);
 var home = require('./routes/home');
 app.use('/', home);
 
+var i18n = require('i18n');
+i18n.configure({
+  locales:['en'], //define how many languages we would support in our application
+  directory: __dirname + '/locales', //define the path to language json files, default is /locales
+  defaultLocale: 'en', //define the default language
+  cookie: 'i18n' // define a custom cookie name to parse locale settings from
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
