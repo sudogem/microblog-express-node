@@ -1,8 +1,9 @@
 
+const postEndpointBaseURL = '/api/post/';
+
 angular.module('blog.controllers', []).
 controller('IndexController', function($scope, $http, flash) {
-  console.info('[IndexController]');
-  $http.get('/api/post').
+  $http.get(postEndpointBaseURL).
     success(function(data, status, headers, config) {
       console.info('[IndexController] data:', data);
       $scope.total = data.posts.length;
@@ -24,31 +25,30 @@ controller('AddNewPostController', function($scope, $http, $location, flash) {
   }
 }).
 controller('EditPostController', function($scope, $routeParams, $http, $location, flash) {
-  console.info('EditPostController');
   var id = $routeParams.id;
-  console.info('id:', id);
+  console.info('[EditPostController] id:',id);
   $scope.form = {};
 
-  $http.get('/api/post/'+id).
+  $http.get(postEndpointBaseURL + id).
     success(function(data, status, headers, config) {
-      console.info('data:', data);
-      $scope.form = data.post;
+      console.info('[EditPostController] data:', data.posts);
+      $scope.form = data.posts;
     }).
     error(function(data, status, headers, config) {
-      console.info('error:', data);
+      console.info('[EditPostController] error:', data);
     });
 
   $scope.editPost = function() {
     console.info('edit post:', $scope.form);
-    $http.put('/posts/'+id, $scope.form).
+    $http.put(postEndpointBaseURL, $scope.form).
       success(function(data, status, headers, config) {
-        console.info('data:', data);
+        console.info('[EditPostController] data:', data);
         $scope.form = data.post;
         flash.setMessage(data.msg);
         $location.url('/');
       }).
       error(function(data, status, headers, config) {
-        console.info('error:', data);
+        console.info('[EditPostController] editPost error:', data);
       });    
   }
 
@@ -58,7 +58,7 @@ controller('DeletePostController', function($scope, $routeParams, $http, $locati
 
   $scope.deletePost = function() {
     var id = $routeParams.id;    
-    $http.delete('/posts/'+id).
+    $http.delete(postEndpointBaseURL + id).
       success(function(data, status, headers, config) {
       console.info('data:', data);
       flash.setMessage(data.msg);
@@ -69,7 +69,4 @@ controller('DeletePostController', function($scope, $routeParams, $http, $locati
   $scope.home = function() {
     $location.url('/');
   };
-
-
 });
-

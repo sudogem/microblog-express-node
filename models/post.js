@@ -104,7 +104,7 @@ var post = {
             return reject(err);
           });
       } else {
-        Post.find().exec()
+        Post.find().sort('-updated_at').exec()
         .then(function(result){
           resolve(result);
         })
