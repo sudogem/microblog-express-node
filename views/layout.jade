@@ -3,9 +3,17 @@ html(lang="en")
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/now-ui-kit.css')
   body(ng-app="blog")
+    block masterHeader
+    block header
     block body
+    block footer
 
+    script(src='/bower_components/jquery/dist/jquery.min.js')
+    script(src='/bower_components/tether/dist/js/tether.min.js')
+    script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
     script(src='/bower_components/angular/angular.js')
     script(src='/bower_components/angular-route/angular-route.min.js')
     script(src='javascripts/app.js')

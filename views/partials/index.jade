@@ -8,11 +8,12 @@ div(ng-if="(total == 0)")
 
 div(ng-if="(total > 0)")
   p There are {{total}} posts
-  div(class='entry', ng-repeat='post in posts')
+  div(class='blog-post', ng-repeat='post in posts')
     h3 {{post.title}}
     div {{post.text}}
-    |   
-    a(href='/#edit_post/{{post.id}}') Edit
-    |   |   
-    a(href='/#delete_post/{{post.id}}') Delete
+    div(class='actionButton')
+      a(class='btn btn-primary btn-round pad1' href='/#edit_post/{{post.id}}') Edit
+      a(class='btn btn-primary btn-round' href='/#delete_post/{{post.id}}') Delete
+      a(class="btn btn-primary btn-icon btn-icon-mini btn-round")
+        i(class="now-ui-icons ui-2_favourite-28")
 

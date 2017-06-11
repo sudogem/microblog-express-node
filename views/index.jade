@@ -1,13 +1,22 @@
 extend layout
 
+block masterHeader
+  div(class='blog-masthead')
+    div(class='container')
+      nav(class='nav blog-nav')
+        a(class='nav-link active' href='#/') Home
+        a(class='nav-link' href='#/add') Add New Post
+
+block header
+  div(class='blog-header')
+    div(class='container')
+      h1(class='blog-title') My Blog
+      p(class='lead blog-description') this is the description
+
 block body
-  div(class='main')
-    h2 My Blog
-    ul
-      li
-        a(href='#/') Home
-      li
-        a(href='#/add') Add New Post
+  div(class='container')
+    div(class='row')
+      div(class='col-sm-8 blog-main')
+        div(ng-view)
 
-    div(ng-view)
-
+      div(class='col-sm-3 offset-sm-1 blog-sidebar')
