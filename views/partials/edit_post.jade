@@ -1,7 +1,11 @@
 h2 Edit post
-label(for='title') Title: 
-input(ng-model='form.title', name='title' value='')
-p Body:
-textarea(ng-model='form.text', cols='50', rows='15')
+div(class='form-group')
+  label(for='title') Title: 
+  input(class='form-control' ng-model='form.title', name='title' value='')
+
+div(class='form-group')
+  label(for='title') Body: 
+  textarea(class='form-control' placeholder='Enter the description here...' ng-model='form.text', cols='10', rows='3')
+
 p
-  button(ng-click='editPost()') Edit Post
+  button(class='btn btn-info btn-round' ng-click='editPost()') Edit Post

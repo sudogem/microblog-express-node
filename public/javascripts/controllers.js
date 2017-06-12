@@ -2,6 +2,7 @@
 angular.module('blog.controllers', []).
 controller('IndexController', function($scope, $http, flash) {
   console.log('IndexController');
+  $scope.activeTab = 'home';
   $http.get('/posts').
     success(function(data, status, headers, config) {
       $scope.total = data.posts.length;
@@ -12,13 +13,18 @@ controller('IndexController', function($scope, $http, flash) {
 controller('AddNewPostController', function($scope, $http, $location, flash) {
   console.log('AddNewPostController');
   $scope.form = {};
-
+  $scope.activeTab = 'add';
   $scope.submitPost = function() {
     $http.post('/posts', $scope.form).
       success(function(data, status, headers, config) {
-        console.log(data);
-        flash.setMessage(data.msg);
-        $location.path('/');
+        console.log('AddNewPostController submitPost:', data);
+        if (data && data.success == false) {
+          $scope.form.error = data.msg;
+          $scope.form.formError = true;
+        } else {
+          flash.setMessage(data.msg);
+          $location.path('/');
+        }
       });
   }
 }).
@@ -50,18 +56,26 @@ controller('EditPostController', function($scope, $routeParams, $http, $location
         console.log('error:', data);
       });    
   }
-
 }).
 controller('DeletePostController', function($scope, $routeParams, $http, $location, flash) {
   console.log('DeletePostController');
+  var id = $routeParams.id;
+  $http.get('/posts/'+id).
+    success(function(data, status, headers, config){
+      $scope.post = data.post;
+      console.log($scope.post);
+    }).
+    error(function(data, status, headers, config) {
+      console.log('error:', data);
+    });
 
   $scope.deletePost = function() {
-    var id = $routeParams.id;    
+    var id = $routeParams.id;
     $http.delete('/posts/'+id).
       success(function(data, status, headers, config) {
-      console.log('data:', data);
-      flash.setMessage(data.msg);
-      $location.url('/');
+        console.log('data:', data);
+        flash.setMessage(data.msg);
+        $location.url('/');
       });
   };
 

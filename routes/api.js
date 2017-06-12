@@ -1,5 +1,7 @@
 
 var Post = require('../models/post');
+var moment = require('moment');
+var _ = require('underscore');
 var DEBUG = true;
 
 // initialize our faux database
@@ -7,19 +9,23 @@ var data = {
   "posts": [
     { "id": 1,
       "title": "Lorem ipsum",
-      "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "created_at": new Date(moment.utc())
     },
     { "id": 2,
       "title": "Sed egestas",
-      "text": "Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus."
+      "text": "Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus.",
+      "created_at": new Date(moment.utc())
     },
     { "id": 3,
       "title": "Sed",
-      "text": "Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus."
+      "text": "Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus.",
+      "created_at": new Date(moment.utc())
     },
     { "id": 4,
       "title": "quote",
-      "text": "REPEAT AFTER ME: ‘My current situation is not my final destination’"
+      "text": "REPEAT AFTER ME: ‘My current situation is not my final destination’",
+      "created_at": new Date(moment.utc())
     }
   ]
 };
@@ -41,7 +47,8 @@ exports.posts = function(req, res) {
     posts.push({
       id: i,
       title: post.title,
-      text: post.text
+      text: post.text,
+      created_at: post.created_at
     });
   });
   res.json({
@@ -68,26 +75,32 @@ exports.add_post = function(req, res) {
   // console.log('CALL exports.add_post');
   var tmpdata = req.body;
   var succeed = true;
-  // console.log('params:', tmpdata);
+  console.log('params:', tmpdata);
   var p = new Post(tmpdata);
 
   if (tmpdata === undefined) {
-    res.json({msg: 'Error: Missing fields.'});
+    res.json({msg: 'Error: Missing fields.', success: false});
     succeed = false;
   }
 
-  if (tmpdata.title === undefined) {
-    res.json({msg: 'Error: Title is required.'});
+  if (_.isEmpty(tmpdata.title)) {
+    res.json({msg: 'Error: Title is required.', success: false});
     succeed = false;
   }
 
-  if (tmpdata.text === undefined) {
-    res.json({msg: 'Error: Message is required.'});
+  if (_.isEmpty(tmpdata.text)) {
+    res.json({msg: 'Error: Body is required.', success: false});
     succeed = false;
   }
 
   if (succeed) {
-    data.posts.push(req.body);
+    var obj = {
+      id: tmpdata.id,
+      title: tmpdata.title,
+      text: tmpdata.text,
+      created_at: new Date(moment.utc())
+    }
+    data.posts.push(obj);
     res.json({msg: 'Successfully created post.'});
   }
 };

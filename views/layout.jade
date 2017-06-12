@@ -2,10 +2,10 @@ doctype
 html(lang="en")
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/now-ui-kit.css')
-  body(ng-app="blog")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body(ng-app="blog" id="container")
     block masterHeader
     block header
     block body
@@ -14,6 +14,7 @@ html(lang="en")
     script(src='/bower_components/jquery/dist/jquery.min.js')
     script(src='/bower_components/tether/dist/js/tether.min.js')
     script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+    script(src='/bower_components/bootstrap/js/dist/alert.js')
     script(src='/bower_components/angular/angular.js')
     script(src='/bower_components/angular-route/angular-route.min.js')
     script(src='javascripts/app.js')
