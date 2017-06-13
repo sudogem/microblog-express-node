@@ -7,6 +7,11 @@ A simple microblogging web application written in AngularJS as frontend and Node
 * CRUD(Create, Read, Update & Delete) functionality:
   * Articles
 
+### Requirements:   
+node v8.1.0  
+npm v5.0.3   
+angular v1.3.15   
+
 #### How to install:   
 $ git clone --depth=1 https://github.com/sudogem/microblog-express-node.git    
 $ cd microblog-express-node      
@@ -18,19 +23,6 @@ $ npm test
 
 #### How to run a single file to test:     
 $ mocha test/{Filename}.js    
-
-#### How to deploy to Bluemix:   
-Signup Bluemix account here [https://console.ng.bluemix.net/registration]   
-$ bluemix api https://api.ng.bluemix.net   
-$ bluemix login -u <IBM ID or email> -o "<ORG>" -s "<SPACE>"   
-  then you will prompted to enter you password   
-$ cf help <-- To list all commands   
-$ cf apps <-- To list all apps   
-$ cd <APP DIR> e.g $ cd microblog-express-node/    
-$ cf create-service mysql 100 mysql-db    
-$ cf push app_name -m 512m   
-
-Sample live preview: http://nodeblog-v1.mybluemix.net/#/   
 
 #### Technology stacks:   
 * node.js   
