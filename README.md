@@ -25,11 +25,12 @@ $ npm test
 $ mocha test/{Filename}.js    
 
 #### Technology stacks:   
-* node.js   
-* ExpressJS
+* node.js (https://nodejs.org)   
+* ExpressJS (https://expressjs.com)
 * HTML/CSS   
-* AngularJS   
-* Jade Templating
+* AngularJS (https://angularjs.org/)   
+* Jade Templating   
+* Now UI Kit (https://github.com/creativetimofficial/now-ui-kit)
 
 #### Developer   
 microblog-express-node &copy; 2015 Arman Ortega. Released under the MIT License.
