@@ -18,6 +18,10 @@ $ cd microblog-express-node
 $ npm install   
 $ npm start   
 
+#### Running app using PM2:   
+$ NODE_PORT=4010 pm2 start --name mblog -i 1 ./bin/www   
+$ pm2 delete mblog   ## To remove mblog process   
+
 #### How to run ALL the test:     
 $ npm test    
 
@@ -31,6 +35,7 @@ $ mocha test/{Filename}.js
 * AngularJS (https://angularjs.org/)   
 * Jade Templating   
 * Now UI Kit (https://github.com/creativetimofficial/now-ui-kit)
+* PM2 (https://github.com/Unitech/pm2)   
 
 #### Developer   
 microblog-express-node &copy; 2015 Arman Ortega. Released under the MIT License.

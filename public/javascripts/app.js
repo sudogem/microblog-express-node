@@ -18,7 +18,9 @@ var app = angular.module('blog', [
 
       // Prevent unauthenticated user from accessing protected route
       $rootScope.$on('$routeChangeStart', function(event, next, current) {
+        var currentUser = $cookies.getObject('user');
         console.log('routeChangeStart=', next);
+        console.log('currentUser=', currentUser);
         console.log('public=', !next.$$route.public);
         var allowed = true;
         if (!$rootScope.user) {
@@ -33,8 +35,8 @@ var app = angular.module('blog', [
           event.preventDefault();
           $location.path('/login');
         }
-
       });
+
       $rootScope.$on('$routeChangeError', function(event, next, current) {
         $location.path('/');
       });
@@ -47,8 +49,8 @@ var app = angular.module('blog', [
         when('/edit_post/:id', { controller: 'EditPostController', templateUrl: 'partials/edit_post', public: false}).
         when('/delete_post/:id', { controller: 'DeletePostController', templateUrl: 'partials/delete_post', public: false}).
         when('/login', { controller: 'AuthController.login', templateUrl: 'api/v1/auth/loginform', public: true}).
-        when('/logout', { controller: 'AuthController.logout', public: true});
+        when('/logout', { controller: 'AuthController.logout', template: ''});
 
       // remove hashes from location URL
-      // $locationProvider.html5Mode(true);
+      $locationProvider.html5Mode(true);
   }]);

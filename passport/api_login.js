@@ -16,8 +16,8 @@ module.exports = function(passport) {
         }
 
         authenticate({
-          user: username,
-          pass: password,
+          email: username,
+          passw: password,
         }, done);
       });
     }
@@ -50,8 +50,7 @@ module.exports = function(passport) {
     var response = {
       token: token,
       expires: expires,
-      user: email,
-      name: user.name
+      user: email
     };
 
     if (user['first_login'] === true) {

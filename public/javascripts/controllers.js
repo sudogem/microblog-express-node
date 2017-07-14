@@ -120,10 +120,10 @@ controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location'
     }
 
   }]).
-controller('AuthController.logout', ['$rootScope', '$scope', '$http', '$location', '$cookies',
-  function($rootScope, $scope, $http, $location, $cookies){
+controller('AuthController.logout', ['$rootScope', '$http', '$location', '$cookies',
+  function($rootScope, $http, $location, $cookies){
     console.log('AuthController.logout');
     $rootScope.user = null;
     $cookies.remove('user');
-    $location.path('#/login');
+    $location.path('/login');
 }]);
