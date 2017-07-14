@@ -84,15 +84,15 @@ controller('DeletePostController', function($scope, $routeParams, $http, $locati
   };
 
 }).
-controller('AuthController', ['$scope', '$rootScope', '$http', '$location', '$cookies',
+controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location', '$cookies',
   function($scope, $rootScope, $http, $location, $cookies) {
-    console.log('AuthController');
     $scope.data = {
       username: '',
       password: ''
     };
+
     $scope.doLogin = function() {
-      console.log('doLogin', $scope.data);
+      console.log('AuthController.login', $scope.data);
       var endpoint = 'http://localhost:4010';
       $http.post(endpoint + '/api/v1/ui/auth', {
         username: $scope.data.username,
@@ -118,4 +118,12 @@ controller('AuthController', ['$scope', '$rootScope', '$http', '$location', '$co
         }
       });
     }
-  }]);
+
+  }]).
+controller('AuthController.logout', ['$rootScope', '$scope', '$http', '$location', '$cookies',
+  function($rootScope, $scope, $http, $location, $cookies){
+    console.log('AuthController.logout');
+    $rootScope.user = null;
+    $cookies.remove('user');
+    $location.path('#/login');
+}]);

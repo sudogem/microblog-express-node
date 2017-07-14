@@ -1,7 +1,7 @@
 var BasicStrategy   = require('passport-http').BasicStrategy;
 var jwt = require('jwt-simple');
 var moment = require('moment');
-var config = require('../../settings');
+var config = require('../settings');
 
 var BasicStrategy   = require('passport-http').BasicStrategy;
 module.exports = function(passport) {
@@ -17,7 +17,7 @@ module.exports = function(passport) {
 
         authenticate({
           user: username,
-          name: password,
+          pass: password,
         }, done);
       });
     }
@@ -27,13 +27,13 @@ module.exports = function(passport) {
     return done(null, user);
   }
 
-  var authenticate = function(user, password, done) {
+  var authenticate = function(user, done) {
     return done(null, createUserToken(user));
   };
 
   // create user jwt token
   var createUserToken = function(user) {
-    var expires = moment().add(5, 'minutes').valueOf();
+    var expires = moment().add(2, 'minutes').valueOf();
     var payload = {
       iss: user._id,
       exp: expires,
@@ -61,7 +61,7 @@ module.exports = function(passport) {
     if (user['is_admin'] === true) {
       response.admin = true;
     }
-
+    console.log('createUserToken:',response);
     return response;
   };
 };

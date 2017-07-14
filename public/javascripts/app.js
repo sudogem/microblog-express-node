@@ -42,15 +42,12 @@ var app = angular.module('blog', [
   .config(['$routeProvider', '$locationProvider',
     function($routeProvider, $locationProvider) {
       $routeProvider.
-        when('/', { templateUrl: 'partials/index', controller: 'IndexController', public: true}).
-        when('/add', { templateUrl: 'partials/add_new_post', controller: 'AddNewPostController', public: false}).
-        when('/edit_post/:id', { templateUrl: 'partials/edit_post', controller: 'EditPostController', public: false}).
-        when('/delete_post/:id', { templateUrl: 'partials/delete_post', controller: 'DeletePostController', public: false}).
-        when('/login', {
-          controller: 'AuthController',
-          templateUrl: 'api/v1/auth/loginform',
-          public: true,
-        });
+        when('/', { controller: 'IndexController', templateUrl: 'partials/index', public: true}).
+        when('/add', { controller: 'AddNewPostController', templateUrl: 'partials/add_new_post', public: false}).
+        when('/edit_post/:id', { controller: 'EditPostController', templateUrl: 'partials/edit_post', public: false}).
+        when('/delete_post/:id', { controller: 'DeletePostController', templateUrl: 'partials/delete_post', public: false}).
+        when('/login', { controller: 'AuthController.login', templateUrl: 'api/v1/auth/loginform', public: true}).
+        when('/logout', { controller: 'AuthController.logout', public: true});
 
       // remove hashes from location URL
       // $locationProvider.html5Mode(true);
