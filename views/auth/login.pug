@@ -1,0 +1,14 @@
+extend layout
+
+block loginForm
+  h2 Login
+  div(class='form-group')
+    label(for='username') Username:
+    input(class='form-control' placeholder='Username' ng-model='form.username', name='username')
+
+    div(class='form-group')
+      label(for='password') Username:
+      input(class='form-control' placeholder='Username' ng-model='form.password', name='password' type='password')
+
+  p
+    button(class='btn btn-info btn-round' ng-click='doLogin()') Login

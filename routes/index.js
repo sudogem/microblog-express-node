@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 // lets render the jade file into HTML
-router.get('/partials/:name', function(req, res) { 
+router.get('/partials/:name', function(req, res) {
   var name = req.params.name;
   res.render('partials/' + name);
 });

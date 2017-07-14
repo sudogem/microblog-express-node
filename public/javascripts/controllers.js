@@ -54,7 +54,7 @@ controller('EditPostController', function($scope, $routeParams, $http, $location
       }).
       error(function(data, status, headers, config) {
         console.log('error:', data);
-      });    
+      });
   }
 }).
 controller('DeletePostController', function($scope, $routeParams, $http, $location, flash) {
@@ -83,6 +83,39 @@ controller('DeletePostController', function($scope, $routeParams, $http, $locati
     $location.url('/');
   };
 
-
-});
-
+}).
+controller('AuthController', ['$scope', '$rootScope', '$http', '$location', '$cookies',
+  function($scope, $rootScope, $http, $location, $cookies) {
+    console.log('AuthController');
+    $scope.data = {
+      username: '',
+      password: ''
+    };
+    $scope.doLogin = function() {
+      console.log('doLogin', $scope.data);
+      var endpoint = 'http://localhost:4010';
+      $http.post(endpoint + '/api/v1/ui/auth', {
+        username: $scope.data.username,
+        password: $scope.data.password
+      })
+      .success(function(data, status, headers, config) {
+        $scope.loading = false;
+        if (data.token) {
+          $location.path('/');
+          $rootScope.user = data;
+          console.log('success:', data);
+          $cookies.putObject('user', data);
+        } else {
+          $scope.errors = ['Invalid login credentials'];
+        }
+      })
+      .error(function(data, status, headers, config) {
+        $scope.loading = false;
+        if (data && data.errors) {
+          $scope.errors = data.errors;
+        } else {
+          $scope.errors = ['Unknown error occurred'];
+        }
+      });
+    }
+  }]);

@@ -5,8 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var pug = require('pug');
-var routes = require('./routes/index');
+var passport = require('passport');
+// var routes = require('./routes/index');
+var routes = require('./routes/site.controller')(passport);
 var users = require('./routes/users');
+var auth = require('./routes/auth');
 var api = require('./routes/api');
 
 var app = express();
@@ -25,13 +28,20 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
+// ****************************************************************************
+// Configuring Passport
+app.use(passport.initialize());
+// Initialize Passport
+var initPassport = require('./passport/init');
+initPassport(passport);
+// ****************************************************************************
+
 // routes
 app.use('/', routes);
-app.use('/users', users);
 app.get('/posts', api.posts);
+app.use('/api/v1/auth', auth);
 app.get('/posts/:id', api.edit_post);
 app.put('/posts/:id', api.update_post);
-
 app.post('/posts', api.add_post);
 app.delete('/posts/:id', api.delete_post);
 
