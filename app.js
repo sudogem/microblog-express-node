@@ -31,9 +31,12 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
 // ****************************************************************************
 // Configuring Passport
 app.use(passport.initialize());
+app.use(passport.session());
+
 // Initialize Passport
-var initPassport = require('./passport/init');
-initPassport(passport);
+// var initPassport = require('./passport/init'); // long version
+// initPassport(passport);
+require('./passport/init')(passport); // short version
 // ****************************************************************************
 
 // routes

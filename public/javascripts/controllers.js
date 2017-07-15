@@ -1,14 +1,19 @@
 
 angular.module('blog.controllers', []).
-controller('IndexController', function($scope, $http, flash) {
-  console.log('IndexController');
+controller('IndexController', function($rootScope, $scope, $http, flash) {
   $scope.activeTab = 'home';
+  $scope.isAuthorized = false;
+  if ($rootScope.user) {
+    $scope.isAuthorized = true;
+  }
   $http.get('/posts').
     success(function(data, status, headers, config) {
       $scope.total = data.posts.length;
       $scope.posts = data.posts;
       $scope.flash = flash;
     });
+  console.log('IndexController');
+  console.log('isAuthorized:',$scope.isAuthorized);
 }).
 controller('AddNewPostController', function($scope, $http, $location, flash) {
   console.log('AddNewPostController');

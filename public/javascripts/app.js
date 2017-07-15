@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('blog', [
+var app = angular.module('app', [
   'blog.controllers',
   'flash.services',
   'ngRoute',

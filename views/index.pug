@@ -3,10 +3,15 @@ extend layout
 block masterHeader
   div(class='blog-masthead')
     div(class='container')
-      nav(class='nav blog-nav')
-        a(class='nav-link' href='/') Home
-        a(class='nav-link' href='/add') Add New Post
-        a(class='nav-link' href='/logout') Logout
+      -if(isAuthorized)
+          nav(class='nav blog-nav')
+            a(class='nav-link' href='/') Home
+            a(class='nav-link' href='/add') Add New Post
+            a(class='nav-link' href='/logout') Logout
+      -else
+          nav(class='nav blog-nav')
+            a(class='nav-link' href='/') Home
+            a(class='nav-link' href='/login') Login
 
 block header
   div(class='blog-header')

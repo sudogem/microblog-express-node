@@ -15,10 +15,15 @@ module.exports = function(passport) {
           return done(null, err);
         }
 
-        authenticate({
-          email: username,
-          passw: password,
-        }, done);
+        if (username === 'user@mail.com' && password === 'test') {
+          authenticate({
+            email: username,
+            passw: password,
+          }, done);
+        } else {
+          return done(null, {'message': 'Invalid username/password.'});
+        }
+
       });
     }
   ));
