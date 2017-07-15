@@ -1,9 +1,10 @@
 
 angular.module('blog.controllers', []).
-controller('IndexController', function($rootScope, $scope, $http, flash) {
+controller('IndexController', function($rootScope, $scope, $http, $cookies, flash) {
   $scope.activeTab = 'home';
   $scope.isAuthorized = false;
-  if ($rootScope.user) {
+  var currentUser = $cookies.getObject('user');
+  if ($rootScope.user || (currentUser && currentUser.token)) {
     $scope.isAuthorized = true;
   }
   $http.get('/posts').
@@ -89,8 +90,8 @@ controller('DeletePostController', function($scope, $routeParams, $http, $locati
   };
 
 }).
-controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location', '$cookies',
-  function($scope, $rootScope, $http, $location, $cookies) {
+controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location', '$cookies', 'flash',
+  function($scope, $rootScope, $http, $location, $cookies, flash) {
     $scope.data = {
       username: '',
       password: ''
@@ -111,7 +112,8 @@ controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location'
           console.log('success:', data);
           $cookies.putObject('user', data);
         } else {
-          $scope.errors = ['Invalid login credentials'];
+          $scope.errors = data.msg;
+          // flash.setMessage(data.msg);
         }
       })
       .error(function(data, status, headers, config) {
@@ -125,10 +127,23 @@ controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location'
     }
 
   }]).
-controller('AuthController.logout', ['$rootScope', '$http', '$location', '$cookies',
-  function($rootScope, $http, $location, $cookies){
+controller('AuthController.logout', ['$rootScope', '$http', '$location', '$cookies', 'flash',
+  function($rootScope, $http, $location, $cookies, flash){
     console.log('AuthController.logout');
+    var endpoint = 'http://localhost:4010';
+    $http.get(endpoint + '/api/v1/auth/logout')
+    .success(function(data, status, headers, config) {
+      flash.setMessage({msg: 'Successfully logout.'});
+
+    })
+    .error(function(data, status, headers, config) {
+      if (data && data.errors) {
+        $scope.errors = data.errors;
+      } else {
+        $scope.errors = ['Unknown error occurred'];
+      }
+    });
     $rootScope.user = null;
     $cookies.remove('user');
-    $location.path('/login');
+    $location.path('/');
 }]);

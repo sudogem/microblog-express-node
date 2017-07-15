@@ -1,5 +1,9 @@
 block loginForm
   h2 Login
+  div(ng-show="errors")
+    div(class='alert alert-danger' role='alert')
+      span {{errors}}
+
   div(class='form-group')
     label(for='username') Email:
     input(class='form-control' placeholder='Email' ng-model='data.username', name='username')

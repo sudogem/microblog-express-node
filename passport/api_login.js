@@ -21,9 +21,8 @@ module.exports = function(passport) {
             passw: password,
           }, done);
         } else {
-          return done(null, {'message': 'Invalid username/password.'});
+          return done(null, {'msg': 'Invalid username/password. Please try again!'});
         }
-
       });
     }
   ));

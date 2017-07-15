@@ -13,24 +13,24 @@ var app = angular.module('app', [
       if (currentUser) {
         $rootScope.user = currentUser;
       }
-      console.log('location=', $location);
-      console.log('currentUser=', currentUser);
-
       // Prevent unauthenticated user from accessing protected route
       $rootScope.$on('$routeChangeStart', function(event, next, current) {
         var currentUser = $cookies.getObject('user');
         console.log('routeChangeStart=', next);
         console.log('currentUser=', currentUser);
-        console.log('public=', !next.$$route.public);
+        console.log('currentUser=', currentUser);
+        console.log('$rootScope.user=', $rootScope.user);
         var allowed = true;
         if (!$rootScope.user) {
           if (!next.$$route.public) {
+            console.log('public??');
             allowed = false;
           }
         } else if (!$rootScope.user.admin && next.$$route.admin) {
+          console.log('admin??');
           allowed = false;
         }
-
+        console.log('allowed=',allowed);
         if (!allowed) {
           event.preventDefault();
           $location.path('/login');
@@ -52,5 +52,5 @@ var app = angular.module('app', [
         when('/logout', { controller: 'AuthController.logout', template: ''});
 
       // remove hashes from location URL
-      $locationProvider.html5Mode(true);
+      // $locationProvider.html5Mode(true);
   }]);

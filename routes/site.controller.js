@@ -12,9 +12,9 @@ module.exports = function(passport){
   /* GET home page. */
   router.get('/', function(req, res, next) {
     var posts = [];
-
+    console.log('tok:',req.user);
     res.render('index', {
-      isAuthorized: false,
+      isAuthorized: (req.user && (req.user.token !== undefined) ? true : false),
       title: 'AngularJS blog app',
       description: 'Built using AngularJS, Jade, ExpressJS. Deployed to Openshift'
     });
@@ -35,7 +35,7 @@ module.exports = function(passport){
   /* Api auth */
   router.post('/api/v1/auth', passport.authenticate('api_login', {session: false}),
     function(req, res){
-      
+      console.log('auth req.user:',req.user);
       res.json(req.user);
     });
   /* Handle auth for browser */
@@ -60,10 +60,12 @@ module.exports = function(passport){
     });
   });
 
-  router.get('/api/v1/auth/logout', passport.authenticate('api_login', {session: false}),
+  router.get('/api/v1/auth/logout',
     function(req, res){
-
-      res.json(req.user);
+      console.log('logout....');
+      // res.json({msg: 'Successfully logout.'});
+      res.redirect('/');
+      req.logout();
     });
   return router;
 };
