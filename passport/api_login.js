@@ -19,6 +19,7 @@ module.exports = function(passport) {
           authenticate({
             email: username,
             passw: password,
+            _id: 123456789
           }, done);
         } else {
           return done(null, {'msg': 'Invalid username/password. Please try again!'});

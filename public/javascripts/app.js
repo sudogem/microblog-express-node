@@ -5,6 +5,7 @@ var app = angular.module('app', [
   'flash.services',
   'ngRoute',
   'ngCookies',
+  'abort'
 ]);
 
   app.run(['$rootScope', '$window', '$cookies', '$location',
@@ -40,6 +41,14 @@ var app = angular.module('app', [
       $rootScope.$on('$routeChangeError', function(event, next, current) {
         $location.path('/');
       });
+  }])
+  .config(['$httpProvider', function($httpProvider) {
+    // Automatically inject user token to HTTP header
+    $httpProvider.interceptors.push('authorize');
+    // Automatically inject user token to HTTP header
+    // $httpProvider.interceptors.push('unauthorize');
+    // Automatically cancel http request on route change
+    // $httpProvider.interceptors.push('abort-request');
   }])
   .config(['$routeProvider', '$locationProvider',
     function($routeProvider, $locationProvider) {

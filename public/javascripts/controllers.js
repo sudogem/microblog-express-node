@@ -4,10 +4,12 @@ controller('IndexController', function($rootScope, $scope, $http, $cookies, flas
   $scope.activeTab = 'home';
   $scope.isAuthorized = false;
   var currentUser = $cookies.getObject('user');
+  var token = '';
   if ($rootScope.user || (currentUser && currentUser.token)) {
     $scope.isAuthorized = true;
+    token = currentUser.token;
   }
-  $http.get('/posts').
+  $http.get('/posts', {headers: {'Authorization': token}}).
     success(function(data, status, headers, config) {
       $scope.total = data.posts.length;
       $scope.posts = data.posts;
@@ -127,14 +129,13 @@ controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location'
     }
 
   }]).
-controller('AuthController.logout', ['$rootScope', '$http', '$location', '$cookies', 'flash',
-  function($rootScope, $http, $location, $cookies, flash){
+controller('AuthController.logout', ['$rootScope', '$scope', '$http', '$location', '$cookies', 'flash',
+  function($rootScope, $scope, $http, $location, $cookies, flash){
     console.log('AuthController.logout');
     var endpoint = 'http://localhost:4010';
     $http.get(endpoint + '/api/v1/auth/logout')
     .success(function(data, status, headers, config) {
       flash.setMessage({msg: 'Successfully logout.'});
-
     })
     .error(function(data, status, headers, config) {
       if (data && data.errors) {

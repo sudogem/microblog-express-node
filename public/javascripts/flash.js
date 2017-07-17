@@ -1,5 +1,5 @@
-angular.module('flash.services', []).
-  factory('flash', function($rootScope) {
+angular.module('flash.services', [])
+  .factory('flash', function($rootScope) {
     var queue = [];
     var currentMessage = "";
 
@@ -18,4 +18,3 @@ angular.module('flash.services', []).
       }
     };
   });
-

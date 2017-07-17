@@ -4,13 +4,14 @@ var app = express();
 var btoa = require('btoa');
 var rest = require('restler');
 var extend = require('util')._extend;
+var middleware = require('./middleware.js');
 
 /**
  * Site controllers for routes that doesn't fit to other components
  */
 module.exports = function(passport){
   /* GET home page. */
-  router.get('/', function(req, res, next) {
+  router.get('/', middleware.checkHeaderToken, function(req, res, next) {
     var posts = [];
     console.log('tok:',req.user);
     res.render('index', {
@@ -36,6 +37,7 @@ module.exports = function(passport){
   router.post('/api/v1/auth', passport.authenticate('api_login', {session: false}),
     function(req, res){
       console.log('auth req.user:',req.user);
+      
       res.json(req.user);
     });
   /* Handle auth for browser */
@@ -67,5 +69,6 @@ module.exports = function(passport){
       res.redirect('/');
       req.logout();
     });
+
   return router;
 };
