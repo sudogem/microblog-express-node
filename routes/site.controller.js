@@ -11,9 +11,8 @@ var middleware = require('./middleware.js');
  */
 module.exports = function(passport){
   /* GET home page. */
-  router.get('/', middleware.checkHeaderToken, function(req, res, next) {
+  router.get('/', function(req, res, next) {
     var posts = [];
-    console.log('tok:',req.user);
     res.render('index', {
       isAuthorized: (req.user && (req.user.token !== undefined) ? true : false),
       title: 'AngularJS blog app',
@@ -36,8 +35,8 @@ module.exports = function(passport){
   /* Api auth */
   router.post('/api/v1/auth', passport.authenticate('api_login', {session: false}),
     function(req, res){
-      console.log('auth req.user:',req.user);
-      
+      // console.log('auth req.user:', req.user);
+      // req.headers.authorization = req.user['token'];
       res.json(req.user);
     });
   /* Handle auth for browser */

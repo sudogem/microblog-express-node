@@ -8,8 +8,9 @@ controller('IndexController', function($rootScope, $scope, $http, $cookies, flas
   if ($rootScope.user || (currentUser && currentUser.token)) {
     $scope.isAuthorized = true;
     token = currentUser.token;
+    console.log('IndexController token=',token);
   }
-  $http.get('/posts', {headers: {'Authorization': token}}).
+  $http.get('/posts', {headers: {'Authorization':token}}).
     success(function(data, status, headers, config) {
       $scope.total = data.posts.length;
       $scope.posts = data.posts;

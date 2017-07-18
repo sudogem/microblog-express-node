@@ -3,13 +3,9 @@ var config = require('../settings');
 var jwt = require('jwt-simple');
 
 exports.checkHeaderToken = function(req, res, next) {
-  // var token = req.headers['x-auth-token'];
-  // var token = req.get('Authorization');
-  var token = req.headers;
-
-  // console.log('checkHeaderToken token=', token);
-  console.log('token:',JSON.stringify(req.headers, null,1));
-  return next();
+  var token = req.headers['x-auth-token'];
+  console.log('checkHeaderToken token=',token);
+  console.log('checkHeaderToken user2=',req.get('Authorization'));
   if (!token) {
     res.status(401).json({
       'success': false,
