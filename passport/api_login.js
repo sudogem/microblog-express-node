@@ -7,8 +7,8 @@ var BasicStrategy   = require('passport-http').BasicStrategy;
 module.exports = function(passport) {
   passport.use('api_login', new BasicStrategy(
     function(username, password, done) {
-      console.log('user:',username);
-      console.log('pass:',password);
+      // console.log('user:',username);
+      // console.log('pass:',password);
       validateAuth(username, password, function(err, result) {
         /* istanbul ignore next */
         if (err) {
@@ -65,7 +65,7 @@ module.exports = function(passport) {
     if (user['is_admin'] === true) {
       response.admin = true;
     }
-    console.log('createUserToken:',response);
+    // console.log('createUserToken:',response);
     return response;
   };
 };

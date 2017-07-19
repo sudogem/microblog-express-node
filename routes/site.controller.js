@@ -11,25 +11,28 @@ var middleware = require('./middleware.js');
  */
 module.exports = function(passport){
   /* GET home page. */
-  router.get('/', function(req, res, next) {
+  router.get('/', middleware.isAuthenticated, function(req, res, next) {
     var posts = [];
+    console.log('\n@home authenticated:',req.authenticated);
     res.render('index', {
-      isAuthorized: (req.user && (req.user.token !== undefined) ? true : false),
-      title: 'AngularJS blog app',
+      isAuthorized: (req.authenticated) ? true : false,
+      title: 'AngularJS app',
       description: 'Built using AngularJS, Jade, ExpressJS. Deployed to Openshift'
     });
   });
 
   // lets render the jade file into HTML
-  router.get('/partials/:name', function(req, res) {
+  router.get('/partials/:name', middleware.isAuthenticated, function(req, res) {
     var name = req.params.name;
-    res.render('partials/' + name);
+    console.log('\n@partials authenticated:',req.authenticated);
+    res.render('partials/' + name, {
+      isAuthorized: (req.authenticated) ? true : false
+    });
   });
 
   router.get('/api/v1/auth/loginform', function(req, res, next) {
-    var posts = [];
     console.log('render login form...');
-    res.render('login');
+    res.render('auth/login');
   });
 
   /* Api auth */
@@ -39,6 +42,7 @@ module.exports = function(passport){
       // req.headers.authorization = req.user['token'];
       res.json(req.user);
     });
+
   /* Handle auth for browser */
   router.post('/api/v1/ui/auth', function(req, res) {
     var authdata = btoa(req.body.username + ':' + req.body.password);
@@ -57,6 +61,7 @@ module.exports = function(passport){
       headers: {'Authorization': 'Basic ' + authdata}
     }).on('complete', function(data) {
       data = extend(data, { env: app.get('env') });
+      console.log('\nAuthorization:',data);
       res.json(data);
     });
   });
@@ -66,6 +71,7 @@ module.exports = function(passport){
       console.log('logout....');
       // res.json({msg: 'Successfully logout.'});
       res.redirect('/');
+
       req.logout();
     });
 

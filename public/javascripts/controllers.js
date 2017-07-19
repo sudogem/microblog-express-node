@@ -6,18 +6,27 @@ controller('IndexController', function($rootScope, $scope, $http, $cookies, flas
   var currentUser = $cookies.getObject('user');
   var token = '';
   if ($rootScope.user || (currentUser && currentUser.token)) {
-    $scope.isAuthorized = true;
+    // $scope.isAuthorized = true;
     token = currentUser.token;
-    console.log('IndexController token=',token);
+    console.log('IndexController token:',token);
   }
-  $http.get('/posts', {headers: {'Authorization':token}}).
-    success(function(data, status, headers, config) {
+  $http.get('/')
+    .success(function(data, status, headers, config){
+      console.log('home data:', headers['Authorization']);
+    });
+
+  $http.get('/posts')
+    .success(function(data, status, headers, config) {
+      console.log('IndexController isAuthorized:',data.isAuthorized);
       $scope.total = data.posts.length;
       $scope.posts = data.posts;
       $scope.flash = flash;
+      $scope.isAuthorized = data.isAuthorized;
+    })
+    .error(function(data, status, headers, config) {
+      $scope.isAuthorized = false;
+      console.log('IndexController error:', data);
     });
-  console.log('IndexController');
-  console.log('isAuthorized:',$scope.isAuthorized);
 }).
 controller('AddNewPostController', function($scope, $http, $location, flash) {
   console.log('AddNewPostController');
@@ -45,11 +54,12 @@ controller('EditPostController', function($scope, $routeParams, $http, $location
 
   $http.get('/posts/'+id).
     success(function(data, status, headers, config) {
-      console.log('data:', data);
+      console.log('post data:', data);
       $scope.form = data.post;
-    }).
-    error(function(data, status, headers, config) {
-      console.log('error:', data);
+    })
+    .error(function(data, status, headers, config) {
+      $scope.isAuthorized = false;
+      // console.log('error:', data);
     });
 
   $scope.editPost = function() {
@@ -60,8 +70,8 @@ controller('EditPostController', function($scope, $routeParams, $http, $location
         $scope.form = data.post;
         flash.setMessage(data.msg);
         $location.url('/');
-      }).
-      error(function(data, status, headers, config) {
+      })
+      .error(function(data, status, headers, config) {
         console.log('error:', data);
       });
   }
@@ -73,8 +83,8 @@ controller('DeletePostController', function($scope, $routeParams, $http, $locati
     success(function(data, status, headers, config){
       $scope.post = data.post;
       console.log($scope.post);
-    }).
-    error(function(data, status, headers, config) {
+    })
+    .error(function(data, status, headers, config) {
       console.log('error:', data);
     });
 

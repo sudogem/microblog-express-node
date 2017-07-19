@@ -40,8 +40,9 @@ var singledata = {
 };
 
 exports.posts = function(req, res) {
-  // console.log('------------------------------------------');
-  // console.log('CALL exports.posts');
+  console.log('------------------------------------------');
+  console.log('CALL exports.posts');
+  console.log('authenticated:',req.authenticated);
   var posts = [];
   data.posts.forEach(function(post, i) {
     posts.push({
@@ -52,6 +53,7 @@ exports.posts = function(req, res) {
     });
   });
   res.json({
+    isAuthorized: (req.authenticated) ? true : false,
     posts: posts
   });
 };

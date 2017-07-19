@@ -17,18 +17,16 @@ var app = angular.module('app', [
       // Prevent unauthenticated user from accessing protected route
       $rootScope.$on('$routeChangeStart', function(event, next, current) {
         var currentUser = $cookies.getObject('user');
-        console.log('routeChangeStart=', next);
-        console.log('currentUser=', currentUser);
-        console.log('currentUser=', currentUser);
-        console.log('$rootScope.user=', $rootScope.user);
+        // console.log('routeChangeStart=', next);
+        // console.log('currentUser=', currentUser);
+        // console.log('currentUser=', currentUser);
+        // console.log('$rootScope.user=', $rootScope.user);
         var allowed = true;
         if (!$rootScope.user) {
           if (!next.$$route.public) {
-            console.log('public??');
             allowed = false;
           }
         } else if (!$rootScope.user.admin && next.$$route.admin) {
-          console.log('admin??');
           allowed = false;
         }
         console.log('allowed=',allowed);

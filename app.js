@@ -42,9 +42,9 @@ require('./passport/init')(passport); // short version
 
 // routes
 app.use('/', routes);
-app.get('/posts', api.posts);
+app.get('/posts', middleware.isAuthenticated, api.posts);
 app.use('/api/v1/auth', auth);
-app.get('/posts/:id', api.edit_post);
+app.get('/posts/:id', middleware.checkHeaderToken, api.edit_post);
 app.put('/posts/:id', middleware.checkHeaderToken, api.update_post);
 app.post('/posts', middleware.checkHeaderToken, api.add_post);
 app.delete('/posts/:id', middleware.checkHeaderToken, api.delete_post);
