@@ -12,19 +12,15 @@ var middleware = require('./middleware.js');
 module.exports = function(passport){
   /* GET home page. */
   router.get('/', middleware.isAuthenticated, function(req, res, next) {
-    var posts = [];
-    console.log('\n@home authenticated:',req.authenticated);
     res.render('index', {
-      isAuthorized: (req.authenticated) ? true : false,
       title: 'AngularJS app',
-      description: 'Built using AngularJS, Jade, ExpressJS. Deployed to Openshift'
+      description: 'Built using AngularJS 1.x, Pug, ExpressJS. Deployed to Openshift'
     });
   });
 
   // lets render the jade file into HTML
   router.get('/partials/:name', middleware.isAuthenticated, function(req, res) {
     var name = req.params.name;
-    console.log('\n@partials authenticated:',req.authenticated);
     res.render('partials/' + name, {
       isAuthorized: (req.authenticated) ? true : false
     });
@@ -57,11 +53,12 @@ module.exports = function(passport){
     console.log('is_SSL? ', req.secure);
     console.log('AUTH_URL:', auth_url);
     console.log('env:', app.get('env'));
+    console.log('===================================================================');
     rest.post(auth_url, {
       headers: {'Authorization': 'Basic ' + authdata}
     }).on('complete', function(data) {
-      data = extend(data, { env: app.get('env') });
-      console.log('\nAuthorization:',data);
+      console.log('auth data:',data);
+      // data = extend(data);
       res.json(data);
     });
   });

@@ -12,6 +12,7 @@ module.exports = function(passport) {
       validateAuth(username, password, function(err, result) {
         /* istanbul ignore next */
         if (err) {
+          console.log('validateAuth err:', err);
           return done(null, err);
         }
 

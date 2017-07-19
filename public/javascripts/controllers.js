@@ -10,10 +10,6 @@ controller('IndexController', function($rootScope, $scope, $http, $cookies, flas
     token = currentUser.token;
     console.log('IndexController token:',token);
   }
-  $http.get('/')
-    .success(function(data, status, headers, config){
-      console.log('home data:', headers['Authorization']);
-    });
 
   $http.get('/posts')
     .success(function(data, status, headers, config) {
