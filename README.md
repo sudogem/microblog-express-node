@@ -7,6 +7,15 @@ A simple microblogging web application written in AngularJS as frontend and Node
 * CRUD(Create, Read, Update & Delete) functionality:
   * Articles
 
+### Screenshots:   
+![Home (default)](/screenshot/home-default.png)   
+
+![Home (logged in)](/screenshot/home-authenticated.png)   
+
+![Add post](/screenshot/add-post.png)   
+
+![Edit post](/screenshot/edit-post.png)   
+
 ### Requirements:   
 node v8.1.0  
 npm v5.0.3   
