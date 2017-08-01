@@ -4,17 +4,8 @@
 A simple microblogging web application written in AngularJS as frontend and NodeJS/ExpressJS for backend
 
 ### Features:    
-* CRUD(Create, Read, Update & Delete) functionality:
-  * Articles
-
-### Screenshots:   
-![Home (default)](/screenshot/home-default.png)   
-
-![Home (logged in)](/screenshot/home-authenticated.png)   
-
-![Add post](/screenshot/add-post.png)   
-
-![Edit post](/screenshot/edit-post.png)   
+* Blog Post CRUD(Create, Read, Update & Delete)   
+* User Login using Passport-HTTP     
 
 ### Requirements:   
 node v8.1.0  
@@ -38,13 +29,22 @@ $ npm test
 $ mocha test/{Filename}.js    
 
 #### Technology stacks:   
-* node.js (https://nodejs.org)   
-* ExpressJS (https://expressjs.com)
-* HTML/CSS   
-* AngularJS (https://angularjs.org/)   
-* Jade Templating   
-* Now UI Kit (https://github.com/creativetimofficial/now-ui-kit)
-* PM2 (https://github.com/Unitech/pm2)   
+* [node.js](https://nodejs.org)   
+* [Express](https://expressjs.com)
+* [HTML/CSS](https://www.w3.org/standards/webdesign/htmlcss)   
+* [Angular](https://angularjs.org/)   
+* [Pug](https://pugjs.org)   
+* [Now UI Kit](https://github.com/creativetimofficial/now-ui-kit)
+* [PM2](https://github.com/Unitech/pm2)   
+
+### Screenshots:   
+![Home (default)](/screenshot/home-default.png)   
+
+![Home (logged in)](/screenshot/home-authenticated.png)   
+
+![Add post](/screenshot/add-post.png)   
+
+![Edit post](/screenshot/edit-post.png)   
 
 #### Developer   
-microblog-express-node &copy; 2015 Arman Ortega. Released under the MIT License.
+[microblog-express-node](http://angularblogexpressrev1-sudogem.rhcloud.com) &copy; 2015 Arman Ortega. Released under the MIT License.
