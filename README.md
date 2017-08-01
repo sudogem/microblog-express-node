@@ -38,6 +38,10 @@ $ mocha test/{Filename}.js
 * [PM2](https://github.com/Unitech/pm2)   
 
 ### Screenshots:   
+Demo account   
+account: user@mail.com   
+pass: test   
+
 ![Home (default)](/screenshot/home-default.png)   
 
 ![Login page](/screenshot/login-page.png)   
