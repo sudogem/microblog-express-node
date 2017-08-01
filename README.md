@@ -7,15 +7,6 @@ A simple microblogging web application written in AngularJS as frontend and Node
 * CRUD(Create, Read, Update & Delete) functionality:
   * Articles
 
-### Screenshots:   
-![Home (default)](/screenshot/home-default.png)   
-
-![Home (logged in)](/screenshot/home-authenticated.png)   
-
-![Add post](/screenshot/add-post.png)   
-
-![Edit post](/screenshot/edit-post.png)   
-
 ### Requirements:   
 node v8.1.0  
 npm v5.0.3   
@@ -40,6 +31,15 @@ $ mocha test/{Filename}.js
 * AngularJS (https://angularjs.org/)   
 * Jade Templating   
 * Now UI Kit (https://github.com/creativetimofficial/now-ui-kit)
+
+### Screenshots:   
+![Home (default)](/screenshot/home-default.png)   
+
+![Home (logged in)](/screenshot/home-authenticated.png)   
+
+![Add post](/screenshot/add-post.png)   
+
+![Edit post](/screenshot/edit-post.png)   
 
 #### Developer   
 microblog-express-node &copy; 2015 Arman Ortega. Released under the MIT License.
