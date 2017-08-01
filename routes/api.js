@@ -13,13 +13,13 @@ var data = {
       "created_at": new Date(moment.utc())
     },
     { "id": 2,
-      "title": "Sed egestas",
-      "text": "Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus.",
+      "title": "HP Pavilion g6-1d46dx",
+      "text": "The HP Pavilion g6-1d46dx was a decent mainstream laptop in its day, and you could replace it with something very similar. ",
       "created_at": new Date(moment.utc())
     },
     { "id": 3,
-      "title": "Sed",
-      "text": "Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus.",
+      "title": "A Google Docs scam",
+      "text": "A Google Docs scam that appears to be widespread began landing in users’ inboxes on Wednesday in what seemed to be a sophisticated phishing or malware attack. The deceptive invitation to edit a Google Doc – the popular app used for writing and sharing files – appeared to be spreading rapidly, with a subject line stating a contact has shared a document on Google Docs with you”. If users click the Open in Docs” button in the email, it takes them to a legitimate Google sign-in screen that asks to continue in Google Docs.",
       "created_at": new Date(moment.utc())
     },
     { "id": 4,

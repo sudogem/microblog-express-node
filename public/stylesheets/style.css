@@ -33,7 +33,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 .blog-masthead {
     background-color: #428bca;
     box-shadow: 0 -0.1rem 0.25rem rgba(0, 0, 0, 0.1) inset;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
 }
 .nav-link {
     color: #cdddeb;
@@ -63,8 +63,8 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 }
 .blog-header {
     border-bottom: 0.05rem solid #eee;
-    margin-bottom: 2rem;
-    padding-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 .blog-title {
     font-size: 2rem;
@@ -98,7 +98,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     border-radius: 2rem;
 }
 .blog-post {
-    margin-bottom: 4rem;
+    margin-bottom: 1.5rem;
 }
 .blog-post-title {
     font-size: 2.5rem;
@@ -106,7 +106,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 }
 .blog-post-meta {
     color: #999;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0;
 }
 .blog-footer {
     background-color: #f9f9f9;
