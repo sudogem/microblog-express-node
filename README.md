@@ -40,6 +40,8 @@ $ mocha test/{Filename}.js
 ### Screenshots:   
 ![Home (default)](/screenshot/home-default.png)   
 
+![Login page](/screenshot/login-page.png)   
+
 ![Home (logged in)](/screenshot/home-authenticated.png)   
 
 ![Add post](/screenshot/add-post.png)   
