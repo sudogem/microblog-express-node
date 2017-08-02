@@ -1,8 +1,9 @@
 
 angular.module('blog.controllers', []).
-controller('IndexController', function($rootScope, $scope, $http, $cookies, flash) {
+controller('IndexController', function($rootScope, $scope, $http, $cookies, flash, utils) {
   $scope.activeTab = 'home';
   $scope.isAuthorized = false;
+  console.log('IndexController utils:', utils);
   var currentUser = $cookies.getObject('user');
   var token = '';
   if ($rootScope.user || (currentUser && currentUser.token)) {
@@ -24,8 +25,8 @@ controller('IndexController', function($rootScope, $scope, $http, $cookies, flas
       console.log('IndexController error:', data);
     });
 }).
-controller('AddNewPostController', function($scope, $http, $location, flash) {
-  console.log('AddNewPostController');
+controller('AddNewPostController', function($scope, $http, $location, flash, utils) {
+  console.log('AddNewPostController utils',utils);
   $scope.form = {};
   $scope.activeTab = 'add';
   $scope.submitPost = function() {
@@ -41,8 +42,12 @@ controller('AddNewPostController', function($scope, $http, $location, flash) {
         }
       });
   }
+
+  $scope.doCancel = function() {
+    utils.backToHome();
+  };
 }).
-controller('EditPostController', function($scope, $routeParams, $http, $location, flash) {
+controller('EditPostController', function($scope, $routeParams, $http, $location, flash, utils) {
   console.log('EditPostController');
   var id = $routeParams.id;
   console.log('id:', id);
@@ -71,8 +76,12 @@ controller('EditPostController', function($scope, $routeParams, $http, $location
         console.log('error:', data);
       });
   }
+
+  $scope.doCancel = function() {
+    utils.backToHome();
+  };
 }).
-controller('DeletePostController', function($scope, $routeParams, $http, $location, flash) {
+controller('DeletePostController', function($scope, $routeParams, $http, $location, flash, utils) {
   console.log('DeletePostController');
   var id = $routeParams.id;
   $http.get('/posts/'+id).
@@ -94,10 +103,9 @@ controller('DeletePostController', function($scope, $routeParams, $http, $locati
       });
   };
 
-  $scope.home = function() {
-    $location.url('/');
+  $scope.doCancel = function() {
+    utils.backToHome();
   };
-
 }).
 controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location', '$cookies', 'flash',
   function($scope, $rootScope, $http, $location, $cookies, flash) {

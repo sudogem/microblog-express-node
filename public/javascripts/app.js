@@ -3,6 +3,7 @@
 var app = angular.module('app', [
   'blog.controllers',
   'flash.services',
+  'utils.services',
   'ngRoute',
   'ngCookies',
   'abort'

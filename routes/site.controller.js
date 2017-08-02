@@ -56,8 +56,16 @@ module.exports = function(passport){
     console.log('===================================================================');
     rest.post(auth_url, {
       headers: {'Authorization': 'Basic ' + authdata}
-    }).on('complete', function(data) {
-      console.log('auth data:',data);
+    })
+    .on('fail', function(data, response){
+      console.log('auth onFail:',data);
+      res.json({msg: data});
+    })
+    .on('error', function(err, response){
+      console.log('auth onError:',err);
+    })
+    .on('success', function(data) {
+      console.log('auth onSuccess:',data);
       // data = extend(data);
       res.json(data);
     });
