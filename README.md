@@ -1,6 +1,7 @@
 # microblog-express-node
 
-A simple microblogging web application written in AngularJS as frontend and NodeJS/ExpressJS for backend
+A simple microblogging web application written in AngularJS 1 as frontend and NodeJS/ExpressJS for backend.   
+Deployed to OpenShift Redhat.
 
 ### Features:    
 * Blog Post CRUD(Create, Read, Update & Delete)   
