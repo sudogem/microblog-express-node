@@ -117,6 +117,7 @@ controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location'
     $scope.doLogin = function() {
       console.log('AuthController.login', $scope.data);
       var endpoint = 'http://localhost:4010';
+      // var endpoint = 'http://angularblogexpressrev1-sudogem.rhcloud.com';
       $http.post(endpoint + '/api/v1/ui/auth', {
         username: $scope.data.username,
         password: $scope.data.password

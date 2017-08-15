@@ -41,15 +41,15 @@ Demo account
 account: user@mail.com   
 pass: test   
 
-![Home (default)](/screenshot/home-default.png)   
+![Home (default)](/screenshots/home-default.png)   
 
-![Login page](/screenshot/login-page.png)   
+![Login page](/screenshots/login-page.png)   
 
-![Home (logged in)](/screenshot/home-authenticated.png)   
+![Home (logged in)](/screenshots/home-authenticated.png)   
 
-![Add post](/screenshot/add-post.png)   
+![Add post](/screenshots/add-post.png)   
 
-![Edit post](/screenshot/edit-post.png)   
+![Edit post](/screenshots/edit-post.png)   
 
 #### Developer   
 [microblog-express-node](http://angularblogexpressrev1-sudogem.rhcloud.com) &copy; 2015 Arman Ortega. Released under the MIT License.
