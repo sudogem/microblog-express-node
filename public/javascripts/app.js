@@ -12,21 +12,21 @@ var app = angular.module('app', [
   app.run(['$rootScope', '$window', '$cookies', '$location',
     function($rootScope, $window, $cookies, $location) {
       var currentUser = $cookies.getObject('user');
-      console.log('rootScope currentUser=', currentUser);
+      console.log('rootScope user:',currentUser);
       if (currentUser) {
-        $rootScope.user = currentUser;
+        $rootScope.globalUser = currentUser;
       }
       // Prevent unauthenticated user from accessing protected route
       $rootScope.$on('$routeChangeStart', function(event, next, current) {
         var currentUser = $cookies.getObject('user');
-        console.log('currentUser=', currentUser);
-        console.log('$rootScope.user=', $rootScope.user);
+        // console.log('currentUser=', currentUser);
+        // console.log('$rootScope.globalUser=', $rootScope.globalUser);
         var allowed = true;
-        if (!$rootScope.user) {
+        if (!$rootScope.globalUser) {
           if (!next.$$route.public) {
             allowed = false;
           }
-        } else if (!$rootScope.user.admin && next.$$route.admin) {
+        } else if (!$rootScope.globalUser.admin && next.$$route.admin) {
           allowed = false;
         }
         if (!allowed) {
@@ -43,7 +43,7 @@ var app = angular.module('app', [
     // Automatically inject user token to HTTP header
     $httpProvider.interceptors.push('authorize');
     // Automatically inject user token to HTTP header
-    // $httpProvider.interceptors.push('unauthorize');
+    $httpProvider.interceptors.push('unauthorize');
     // Automatically cancel http request on route change
     // $httpProvider.interceptors.push('abort-request');
   }])

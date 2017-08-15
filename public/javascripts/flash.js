@@ -9,11 +9,9 @@ angular.module('flash.services', [])
 
     return {
       setMessage: function(message) {
-        console.log('setMessage:', message);
         queue.push(message);
       },
       getMessage: function() {
-        console.log('getMessage:', currentMessage);
         return currentMessage;
       }
     };

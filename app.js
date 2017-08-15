@@ -48,6 +48,7 @@ app.get('/posts/:id', middleware.checkHeaderToken, api.edit_post);
 app.put('/posts/:id', middleware.checkHeaderToken, api.update_post);
 app.post('/posts', middleware.checkHeaderToken, api.add_post);
 app.delete('/posts/:id', middleware.checkHeaderToken, api.delete_post);
+app.use('/user', middleware.isAuthenticated, users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,11 +1,12 @@
 // Place our middleware here
 var config = require('../settings');
 var jwt = require('jwt-simple');
+var moment = require('moment');
 
 exports.checkHeaderToken = function(req, res, next) {
   var token = req.headers['x-auth-token'];
-  console.log('checkHeaderToken token=',token);
-  console.log('checkHeaderToken token=',req.get('Authorization'));
+  console.log('[routes/middleware.js] exports.checkHeaderToken() token:',token);
+  console.log('[routes/middleware.js] exports.checkHeaderToken() token:',req.get('Authorization'));
   if (!token) {
     res.status(401).json({
       'success': false,
@@ -15,8 +16,8 @@ exports.checkHeaderToken = function(req, res, next) {
   }
   try {
     var decoded = jwt.decode(token, config.jwtTokenSecret);
-    console.log('checkHeaderAuth iss:', decoded.iss);
-    console.log('checkHeaderAuth iss:', typeof(decoded.iss) );
+    console.log('[routes/middleware.js] exports.checkHeaderToken() iss:',decoded.iss);
+    console.log('[routes/middleware.js] exports.checkHeaderToken() expiry:',moment(decoded.exp).format("DD MMM YYYY hh:mm a"));
     if (decoded.exp <= Date.now()) {
       return res.status(401).json({'error': 'Access token has expired'});
     }
@@ -40,7 +41,6 @@ exports.checkHeaderToken = function(req, res, next) {
 
 exports.isAuthenticated = function(req, res, next) {
   var token = req.headers['x-auth-token'];
-  console.log('\nexports.isAuthenticated token:',token);
   req.authenticated = false;
   if (!token) {
     return next();
@@ -48,21 +48,21 @@ exports.isAuthenticated = function(req, res, next) {
   if (token) {
     var decoded = jwt.decode(token, config.jwtTokenSecret);
     verifyUser(decoded, function(err, result) {
-
       if (err) {
         // res.status(401).json({
         //   'success': false,
-        //   'msg': err.error
+        //   'msg': err
         // });
         // return;
-        console.log('isAuthenticated e1:',err);
+        console.log('[routes/middleware.js] exports.isAuthenticated() isAuthenticated err:',err);
       }
       if (result) {
         req.user = decoded;
         req.authenticated = true;
       }
     });
-
+    console.log('[routes/middleware.js] exports.isAuthenticated() req.authenticated:',req.authenticated);
+    console.log('[routes/middleware.js] exports.isAuthenticated() expiry:',moment(decoded.exp).format("DD MMM YYYY hh:mm a"));
     return next();
   }
 }

@@ -3,11 +3,11 @@ extend layout
 block masterHeader
   div(class='blog-masthead')
     div(class='container')
-      nav(ng-if="!user" class='nav blog-nav')
+      nav(ng-if="!globalUser" class='nav blog-nav')
         a(class='nav-link' href='#/') Home
-        a(class='nav-link' href='#/logout') Login
+        a(class='nav-link' href='#/login') Login
 
-      nav(ng-if="user" class='nav blog-nav')
+      nav(ng-if="globalUser" class='nav blog-nav')
           a(class='nav-link' href='#/') Home
           a(class='nav-link' href='#/add') Add New Post
           a(class='nav-link' href='#/logout') Logout

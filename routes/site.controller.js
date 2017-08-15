@@ -11,9 +11,12 @@ var middleware = require('./middleware.js');
  */
 module.exports = function(passport){
   /* GET home page. */
-  router.get('/', middleware.isAuthenticated, function(req, res, next) {
+  router.get('/', function(req, res, next) {
+    console.log('------------------------------------------');
+    console.log('[site.controller.js] [/] req.authenticated:',req.authenticated);
     res.render('index', {
       title: 'AngularJS app',
+      isAuthorized: (req.authenticated) ? true : false,
       description: 'Built using AngularJS 1.x, Pug, ExpressJS. Deployed to Openshift'
     });
   });
@@ -21,6 +24,10 @@ module.exports = function(passport){
   // lets render the jade file into HTML
   router.get('/partials/:name', middleware.isAuthenticated, function(req, res) {
     var name = req.params.name;
+    console.log('[site.controller.js] [/partials/:name] req.authenticated:',req.authenticated);
+    // if(!req.authenticated) {
+      // res.redirect('/#/posts');
+    // }
     res.render('partials/' + name, {
       isAuthorized: (req.authenticated) ? true : false
     });
@@ -76,7 +83,6 @@ module.exports = function(passport){
       console.log('logout....');
       // res.json({msg: 'Successfully logout.'});
       res.redirect('/');
-
       req.logout();
     });
 

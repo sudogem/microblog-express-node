@@ -41,8 +41,7 @@ var singledata = {
 
 exports.posts = function(req, res) {
   console.log('------------------------------------------');
-  console.log('CALL exports.posts');
-  console.log('authenticated:',req.authenticated);
+  console.log('[routes/api.js] exports.posts() req.authenticated:',req.authenticated);
   var posts = [];
   data.posts.forEach(function(post, i) {
     posts.push({
