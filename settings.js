@@ -1,5 +1,7 @@
 module.exports = {
-	mongoDbURL: process.env.mongoDbURL || 'mongodb://localhost/microblog-express-node-db'
+	mongoDbURL: process.env.mongoDbURL || 'mongodb://localhost/microblog-express-node-db',
+  baseUrlApi:  process.env.OPENSHIFT_APP_DNS || '//localhost:4010',
+  jwtTokenSecret: process.env.jwtTokenSecret || '91fe211053c6377ddfd218a061f96'
 };
 
 // var loggers = require('./middleware/logger');
