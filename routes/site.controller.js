@@ -5,11 +5,30 @@ var btoa = require('btoa');
 var rest = require('restler');
 var extend = require('util')._extend;
 var middleware = require('./middleware.js');
+var fs = require('fs');
+var settings = require('../settings');
 
 /**
  * Site controllers for routes that doesn't fit to other components
  */
-module.exports = function(passport){
+module.exports = function(app, passport){
+  var render = function(req, res, file, json) {
+    json['siteTitle'] = 'Blog app';
+    json['user'] = req.session.user;
+    json['userEmail'] = req.user;
+    return res.render(file, json);
+  };
+
+  var includes = {
+    render: render,
+    middleware: middleware
+  };
+
+  fs.readdirSync('./routes/api').forEach(function(file) {
+    console.log('Successfully loaded route api/'+file);
+    require('./api/' + file)(app, includes);
+  });
+
   /* GET home page. */
   router.get('/', function(req, res, next) {
     console.log('------------------------------------------');

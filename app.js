@@ -5,13 +5,16 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var jade = require('jade');
+var pug = require('pug');
+var passport = require('passport');
 var settings = require('./settings');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 // app.set('view options', { layout: true });
 
 // uncomment after placing your favicon in /public
@@ -23,12 +26,32 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
+// ****************************************************************************
+// Configuring Passport
+app.use(passport.initialize());
+// app.use(passport.session());
+
+// Initialize Passport
+// var initPassport = require('./passport/init'); // long version
+// initPassport(passport);
+require('./passport/init')(passport); // short version
+// ****************************************************************************
+
 //Routes/Controllers for the views
 // require('./routes')(app, passport);
-require('./routes')(app);
+// require('./routes')(app);
 
-var home = require('./routes/home');
-app.use('/', home);
+// var home = require('./routes/home');
+// app.use('/', home);
+
+var routes = require('./routes/site.controller')(app, passport);
+// var users = require('./routes/users');
+// var auth = require('./routes/auth');
+// var api = require('./routes/api');
+var middleware = require('./routes/middleware.js');
+
+// routes
+app.use('/', routes);
 
 var i18n = require('i18n');
 i18n.configure({

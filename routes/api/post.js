@@ -2,7 +2,7 @@ var PostModel = require('../../models/post');
 var i18n = require('i18n');
 
 module.exports = function(app, includes) {
-  // var middleware = includes.middleware;
+  var middleware = includes.middleware;
 
   createPost = function(req, res) {
     console.log('[ROUTEAPIPOST] createPost:',req.body);
@@ -21,9 +21,13 @@ module.exports = function(app, includes) {
     var id = req.params.id;
     PostModel.get(id)
       .then(function(result){
-        console.log('[ROUTEAPIPOST] id:',id);
+        if(id) console.log('[ROUTEAPIPOST] id:',id);
         console.log('[ROUTEAPIPOST] getPost result:',result);
-        res.status(200).send({posts: result});
+        // res.status(200).send({posts: result});
+        res.json({
+          isAuthorized: (req.authenticated) ? true : false,
+          posts: result
+        });
       })
       .catch(function(err){
         console.log('[ROUTEAPIPOST] getPost err:',err);
@@ -67,7 +71,7 @@ module.exports = function(app, includes) {
   };
 
   app.post('/api/post', createPost);
-  app.get('/api/post/:id?', getPost);
+  app.get('/api/post/:id?', middleware.isAuthenticated, getPost);
   app.put('/api/post', updatePost);
   app.delete('/api/post/:id', deletePost);
 };
