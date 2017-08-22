@@ -5,35 +5,48 @@ var moment = require('moment');
 
 exports.checkHeaderToken = function(req, res, next) {
   var token = req.headers['x-auth-token'];
-  console.log('[routes/middleware.js] exports.checkHeaderToken() token:',token);
   console.log('[routes/middleware.js] exports.checkHeaderToken() token:',req.get('Authorization'));
   if (!token) {
     res.status(401).json({
       'success': false,
-      'msg': 'Not authorized - No access token'
+      'message': 'Not authorized - No access token'
     });
     return;
   }
   try {
     var decoded = jwt.decode(token, config.jwtTokenSecret);
     console.log('[routes/middleware.js] exports.checkHeaderToken() iss:',decoded.iss);
-    console.log('[routes/middleware.js] exports.checkHeaderToken() expiry:',moment(decoded.exp).format("DD MMM YYYY hh:mm a"));
-    if (decoded.exp <= Date.now()) {
-      return res.status(401).json({'error': 'Access token has expired'});
-    }
-    if (decoded.iss === 123456789) { //request from ui
-      req.user = decoded;
-      return next();
-    } else {
-      res.status(401).json({'error': 'Unauthorized - User is not valid'});
-      return;
-    }
+    verifyUser(decoded, function(err, result) {
+      if (err) {
+        res.status(401).json({
+          'success': false,
+          'message': err
+        });
+        return;
+      }
+      if (result) {
+        req.user = decoded;
+        req.authenticated = true;
+        return next();
+      }
+    });
+    // console.log('[routes/middleware.js] exports.checkHeaderToken() expiry:',moment(decoded.exp).format("DD MMM YYYY hh:mm a"));
+    // if (decoded.exp <= Date.now()) {
+    //   return res.status(401).json({'error': 'Access token has expired'});
+    // }
+    // if (decoded.iss === 123456789) { //request from ui
+    //   req.user = decoded;
+    //   return next();
+    // } else {
+    //   res.status(401).json({'error': 'Unauthorized - User is not valid'});
+    //   return;
+    // }
     // users.get_one(decoded.iss, function(err, user) {
     // });
   } catch (e) {
     res.status(500).json({
       'success': false,
-      'msg': 'Error during token decoding'
+      'message': 'Error during token decoding'
     });
     return;
   };
@@ -49,12 +62,9 @@ exports.isAuthenticated = function(req, res, next) {
     var decoded = jwt.decode(token, config.jwtTokenSecret);
     verifyUser(decoded, function(err, result) {
       if (err) {
-        // res.status(401).json({
-        //   'success': false,
-        //   'msg': err
-        // });
-        // return;
-        console.log('[routes/middleware.js] exports.isAuthenticated() isAuthenticated err:',err);
+        console.log('[routes/middleware.js] exports.isAuthenticated() err:',err);
+        req.user = null;
+        return;
       }
       if (result) {
         req.user = decoded;

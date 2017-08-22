@@ -19,6 +19,21 @@ module.exports = function(app, includes) {
       });
   };
 
+  getAllPosts = function(req, res){
+    PostModel.get()
+      .then(function(result){
+        console.log('[routes/api/post.js] getPost() result:',result);
+        res.json({
+          isAuthorized: (req.authenticated) ? true : false,
+          posts: result
+        });
+      })
+      .catch(function(err){
+        console.log('[routes/api/post.js] getPost() err:',err);
+        res.status(500).send(err);
+      });
+  };
+
   getPost = function(req, res) {
     var id = req.params.id;
     PostModel.get(id)
@@ -48,8 +63,9 @@ module.exports = function(app, includes) {
         res.status(200).send({success: true, posts: result});
       })
       .catch(function(err){
-        console.log('[routes/api/post.js] updatePost() err:',err);
-        res.status(500).send(err);
+        console.log('[routes/api/post.js] updatePost() err:',err.errors);
+        var result = {success: false, error: (err && err.errors ? err.errors: err)};
+        res.status(500).send(result);
       });
   };
 
@@ -72,8 +88,9 @@ module.exports = function(app, includes) {
       });
   };
 
-  app.post('/api/post', middleware.isAuthenticated, createPost);
-  app.get('/api/post/:id?', middleware.isAuthenticated, getPost);
-  app.put('/api/post/:id?', middleware.isAuthenticated, updatePost);
-  app.delete('/api/post/:id', middleware.isAuthenticated, deletePost);
+  app.get('/api/post', middleware.isAuthenticated, getAllPosts);
+  app.get('/api/post/:id?', middleware.checkHeaderToken, getPost);
+  app.post('/api/post', middleware.checkHeaderToken, createPost);
+  app.put('/api/post/:id?', middleware.checkHeaderToken, updatePost);
+  app.delete('/api/post/:id', middleware.checkHeaderToken, deletePost);
 };

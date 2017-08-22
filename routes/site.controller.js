@@ -44,9 +44,6 @@ module.exports = function(app, passport){
   router.get('/partials/:name', middleware.isAuthenticated, function(req, res) {
     var name = req.params.name;
     console.log('[site.controller.js] [/partials/:name] req.authenticated:',req.authenticated);
-    // if(!req.authenticated) {
-      // res.redirect('/#/posts');
-    // }
     res.render('partials/' + name, {
       isAuthorized: (req.authenticated) ? true : false
     });

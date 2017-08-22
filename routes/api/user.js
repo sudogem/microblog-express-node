@@ -17,7 +17,6 @@ module.exports = function(app, includes) {
   };
 
   var isAuthenticated = function(req, res) {
-    // middleware.isAuthenticated
     return res.json({
       isAuthorized: (req.authenticated) ? true : false
     });

@@ -46,7 +46,7 @@ var post = {
         return reject({'error': i18n.__('PostIdRequired')});
       }
       data.updated_at = new Date(moment.utc());
-      Post.findByIdAndUpdate({'_id': postId}, {'$set': data}, {new:true}).exec()
+      Post.findByIdAndUpdate({'_id': postId}, {'$set': data}, {new:true, runValidators: true}).exec()
         .then(function(result) {
           resolve(result);
         })

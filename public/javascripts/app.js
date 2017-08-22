@@ -20,7 +20,7 @@ app.run(['$rootScope', '$window', '$cookies', '$location',
     // Prevent unauthenticated user from accessing protected route
     $rootScope.$on('$routeChangeStart', function(event, next, current) {
       var currentUser = $cookies.getObject('user');
-      console.log('next=', next.$$route);
+      console.log('$routeChangeStart next:', next.$$route);
       // console.log('$rootScope.globalUser=', $rootScope.globalUser);
       var allowed = true;
       if (!$rootScope.globalUser) {
@@ -40,6 +40,9 @@ app.run(['$rootScope', '$window', '$cookies', '$location',
       $location.path('/');
     });
 }])
+.filter('unsafe', function($sce) { /* render the data in raw html format(unescape strings) */
+  return $sce.trustAsHtml;
+})
 .config(['$httpProvider', function($httpProvider) {
   // Automatically inject user token to HTTP header
   $httpProvider.interceptors.push('authorize');

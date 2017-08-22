@@ -39,7 +39,7 @@ module.exports = function(passport) {
 
   // create user jwt token
   var createUserToken = function(user) {
-    var expires = moment().add(1, 'hour').valueOf();
+    var expires = moment().add(1, 'minute').valueOf();
     var payload = {
       iss: user._id,
       exp: expires,

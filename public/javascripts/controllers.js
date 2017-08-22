@@ -1,5 +1,5 @@
 angular.module('blog.controllers', []).
-controller('IndexController', function($rootScope, $scope, $http, $cookies, flash, utils, _) {
+controller('IndexController', function($rootScope, $scope, $http, $cookies, flash, utils) {
   $scope.activeTab = 'home';
   $scope.isAuthorized = false;
   // console.log('IndexController utils:', utils);
@@ -27,23 +27,22 @@ controller('IndexController', function($rootScope, $scope, $http, $cookies, flas
     });
 }).
 controller('AddNewPostController', function($rootScope, $scope, $http, $location, flash, utils, _) {
-  // console.log('AddNewPostController utils',utils);
   $scope.form = {};
   $scope.activeTab = 'add';
-
+  utils.isAuthenticated();
   // Check if user is authorized to access the page.
-  $http.get('/api/user/isauthenticated')
-    .success(function(data, status, headers, config) {
-      if(!data.isAuthorized){
-        $rootScope.globalUser = false;
-        $location.path('/login');
-      }
-    })
-    .error(function(data, status, headers, config) {
-      $scope.isAuthorized = false;
-      $rootScope.globalUser = false;
-      console.log('[AddNewPostController] error:', data);
-    });
+  // $http.get('/api/user/isauthenticated')
+  //   .success(function(data, status, headers, config) {
+  //     if(!data.isAuthorized){
+  //       $rootScope.globalUser = false;
+  //       $location.path('/login');
+  //     }
+  //   })
+  //   .error(function(data, status, headers, config) {
+  //     $scope.isAuthorized = false;
+  //     $rootScope.globalUser = false;
+  //     console.log('[AddNewPostController] error:', data);
+  //   });
 
   $scope.submitPost = function() {
     $http.post('/api/post', $scope.form)
@@ -59,14 +58,13 @@ controller('AddNewPostController', function($rootScope, $scope, $http, $location
       })
       .error(function(data, status, headers, config) {
         if (!data.success && (_.size(data.error) > 0)) {
-          var msg = '';
-          _.each(data.error, function(e){
-            msg = msg + e.message + '<br>';
-          });
-          console.log('[AddNewPostController] err msg:',msg);
-          flash.setMessage(msg);
+          // var msg = '';
+          // _.each(data.error, function(e){
+          //   msg = msg + e.message + '<br>';
+          // });
+          // console.log('[AddNewPostController] err msg:',msg);
           $scope.form.formError = true;
-          $scope.form.error = msg;
+          $scope.form.error = data.error;
         }
         console.log('[AddNewPostController] err data:',data);
         console.log('[AddNewPostController] err status:',status);
@@ -78,6 +76,7 @@ controller('AddNewPostController', function($rootScope, $scope, $http, $location
   };
 }).
 controller('EditPostController', function($scope, $routeParams, $http, $location, flash, utils) {
+  utils.isAuthenticated();
   var id = $routeParams.id;
   console.log('[EditPostController] id:', id);
   $scope.form = {};
@@ -89,7 +88,7 @@ controller('EditPostController', function($scope, $routeParams, $http, $location
     })
     .error(function(data, status, headers, config) {
       $scope.isAuthorized = false;
-      // console.log('error:', data);
+      console.log('[EditPostController] error:', data);
     });
 
   $scope.editPost = function() {
@@ -102,7 +101,11 @@ controller('EditPostController', function($scope, $routeParams, $http, $location
         $location.url('/');
       })
       .error(function(data, status, headers, config) {
-        console.log('[EditPostController] error:', data);
+        console.log('[EditPostController] editPost() error:', data);
+        if (!data.success && (_.size(data.error) > 0)) {
+          $scope.form.formError = true;
+          $scope.form.error = data.error;
+        }
       });
   }
 
