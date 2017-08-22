@@ -1,9 +1,9 @@
 var UserModel = require('../../models/user');
 
 module.exports = function(app, includes) {
-  // var middleware = includes.middleware;
+  var middleware = includes.middleware;
 
-  createUser = function(req, res) {
+  var createUser = function(req, res) {
     console.log('[ROUTE_API_USER] createUser:',req.body);
     UserModel.create(req.body)
       .then(function(result) {
@@ -16,5 +16,13 @@ module.exports = function(app, includes) {
       });
   };
 
-  app.post('/api/user/create', createUser);
+  var isAuthenticated = function(req, res) {
+    // middleware.isAuthenticated
+    return res.json({
+      isAuthorized: (req.authenticated) ? true : false
+    });
+  }
+
+  app.post('/api/user/create', middleware.isAuthenticated, createUser);
+  app.get('/api/user/isauthenticated', middleware.isAuthenticated, isAuthenticated);
 };

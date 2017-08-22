@@ -36,7 +36,7 @@ module.exports = function(app, passport){
     res.render('index', {
       title: 'AngularJS app',
       isAuthorized: (req.authenticated) ? true : false,
-      description: 'Built using AngularJS 1.x, Pug, ExpressJS. Deployed to Openshift'
+      description: 'Built using AngularJS 1.x, Pug, ExpressJS & MongoDB. Deployed to Openshift'
     });
   });
 

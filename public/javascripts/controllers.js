@@ -1,6 +1,5 @@
-
 angular.module('blog.controllers', []).
-controller('IndexController', function($rootScope, $scope, $http, $cookies, flash, utils) {
+controller('IndexController', function($rootScope, $scope, $http, $cookies, flash, utils, _) {
   $scope.activeTab = 'home';
   $scope.isAuthorized = false;
   // console.log('IndexController utils:', utils);
@@ -27,13 +26,13 @@ controller('IndexController', function($rootScope, $scope, $http, $cookies, flas
       console.log('IndexController error:', data);
     });
 }).
-controller('AddNewPostController', function($rootScope, $scope, $http, $location, flash, utils) {
+controller('AddNewPostController', function($rootScope, $scope, $http, $location, flash, utils, _) {
   // console.log('AddNewPostController utils',utils);
   $scope.form = {};
   $scope.activeTab = 'add';
 
   // Check if user is authorized to access the page.
-  $http.get('/user')
+  $http.get('/api/user/isauthenticated')
     .success(function(data, status, headers, config) {
       if(!data.isAuthorized){
         $rootScope.globalUser = false;
@@ -43,13 +42,13 @@ controller('AddNewPostController', function($rootScope, $scope, $http, $location
     .error(function(data, status, headers, config) {
       $scope.isAuthorized = false;
       $rootScope.globalUser = false;
-      console.log('AddNewPostController error:', data);
+      console.log('[AddNewPostController] error:', data);
     });
 
   $scope.submitPost = function() {
-    $http.post('/posts', $scope.form)
+    $http.post('/api/post', $scope.form)
       .success(function(data, status, headers, config) {
-        console.log('AddNewPostController submitPost:', data);
+        console.log('[AddNewPostController] submitPost:', data);
         if (data && data.success == false) {
           $scope.form.error = data.msg;
           $scope.form.formError = true;
@@ -59,6 +58,16 @@ controller('AddNewPostController', function($rootScope, $scope, $http, $location
         }
       })
       .error(function(data, status, headers, config) {
+        if (!data.success && (_.size(data.error) > 0)) {
+          var msg = '';
+          _.each(data.error, function(e){
+            msg = msg + e.message + '<br>';
+          });
+          console.log('[AddNewPostController] err msg:',msg);
+          flash.setMessage(msg);
+          $scope.form.formError = true;
+          $scope.form.error = msg;
+        }
         console.log('[AddNewPostController] err data:',data);
         console.log('[AddNewPostController] err status:',status);
       });
@@ -70,13 +79,13 @@ controller('AddNewPostController', function($rootScope, $scope, $http, $location
 }).
 controller('EditPostController', function($scope, $routeParams, $http, $location, flash, utils) {
   var id = $routeParams.id;
-  console.log('id:', id);
+  console.log('[EditPostController] id:', id);
   $scope.form = {};
 
-  $http.get('/posts/'+id).
+  $http.get('/api/post/'+id).
     success(function(data, status, headers, config) {
-      console.log('[EditPostController] post data:', data);
-      $scope.form = data.post;
+      $scope.form = data.posts;
+      console.log('[EditPostController] $scope.form:', $scope.form);
     })
     .error(function(data, status, headers, config) {
       $scope.isAuthorized = false;
@@ -84,8 +93,8 @@ controller('EditPostController', function($scope, $routeParams, $http, $location
     });
 
   $scope.editPost = function() {
-    console.log('edit post:', $scope.form);
-    $http.put('/posts/'+id, $scope.form).
+    console.log('[EditPostController] editPost():', $scope.form);
+    $http.put('/api/post/'+id, $scope.form).
       success(function(data, status, headers, config) {
         console.log('[EditPostController] data:', data);
         $scope.form = data.post;
@@ -102,12 +111,11 @@ controller('EditPostController', function($scope, $routeParams, $http, $location
   };
 }).
 controller('DeletePostController', function($scope, $routeParams, $http, $location, flash, utils) {
-  console.log('DeletePostController');
+  console.log('[DeletePostController]');
   var id = $routeParams.id;
-  $http.get('/posts/'+id).
+  $http.get('/api/post/'+id).
     success(function(data, status, headers, config){
-      $scope.post = data.post;
-      console.log($scope.post);
+      $scope.post = data.posts;
     })
     .error(function(data, status, headers, config) {
       console.log('error:', data);
@@ -115,9 +123,9 @@ controller('DeletePostController', function($scope, $routeParams, $http, $locati
 
   $scope.deletePost = function() {
     var id = $routeParams.id;
-    $http.delete('/posts/'+id).
+    $http.delete('/api/post/'+id).
       success(function(data, status, headers, config) {
-        console.log('data:', data);
+        console.log('[DeletePostController] deletePost() data:', data);
         flash.setMessage(data.msg);
         $location.url('/');
       });
