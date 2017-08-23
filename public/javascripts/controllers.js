@@ -75,7 +75,7 @@ controller('AddNewPostController', function($rootScope, $scope, $http, $location
     utils.backToHome();
   };
 }).
-controller('EditPostController', function($scope, $routeParams, $http, $location, flash, utils) {
+controller('EditPostController', function($rootScope, $scope, $routeParams, $http, $location, flash, utils) {
   utils.isAuthenticated();
   var id = $routeParams.id;
   console.log('[EditPostController] id:', id);
@@ -93,18 +93,23 @@ controller('EditPostController', function($scope, $routeParams, $http, $location
 
   $scope.editPost = function() {
     console.log('[EditPostController] editPost():', $scope.form);
-    $http.put('/api/post/'+id, $scope.form).
-      success(function(data, status, headers, config) {
+    $http.put('/api/post/'+id, $scope.form)
+      .success(function(data, status, headers, config) {
         console.log('[EditPostController] data:', data);
         $scope.form = data.post;
         flash.setMessage(data.msg);
         $location.url('/');
       })
       .error(function(data, status, headers, config) {
-        console.log('[EditPostController] editPost() error:', data);
-        if (!data.success && (_.size(data.error) > 0)) {
+        console.log('[EditPostController] editPost() data:', data);
+        console.log('[EditPostController] editPost() data.error:', data.error);
+        if (!data.success && data.error) {
           $scope.form.formError = true;
-          $scope.form.error = data.error;
+          if (data.error.message) {
+            $rootScope.errors = data.error.message;
+          } else {
+            $scope.form.error = data.error;
+          }
         }
       });
   }
@@ -113,8 +118,9 @@ controller('EditPostController', function($scope, $routeParams, $http, $location
     utils.backToHome();
   };
 }).
-controller('DeletePostController', function($scope, $routeParams, $http, $location, flash, utils) {
+controller('DeletePostController', function($rootScope, $scope, $routeParams, $http, $location, flash, utils) {
   console.log('[DeletePostController]');
+  utils.isAuthenticated();
   var id = $routeParams.id;
   $http.get('/api/post/'+id).
     success(function(data, status, headers, config){
@@ -126,11 +132,22 @@ controller('DeletePostController', function($scope, $routeParams, $http, $locati
 
   $scope.deletePost = function() {
     var id = $routeParams.id;
-    $http.delete('/api/post/'+id).
-      success(function(data, status, headers, config) {
+    $http.delete('/api/post/'+id)
+      .success(function(data, status, headers, config) {
         console.log('[DeletePostController] deletePost() data:', data);
         flash.setMessage(data.msg);
         $location.url('/');
+      })
+      .error(function(data, status, headers, config) {
+        console.log('[DeletePostController] deletePost() error:', data);
+        if (!data.success && (_.size(data.error) > 0)) {
+          $scope.form.formError = true;
+          $scope.form.error = data.error;
+          flash.setMessage(data.msg);
+        }
+        if (!data.success && data.message){
+          // $rootScope.errors = data.message.error;
+        }
       });
   };
 
@@ -145,6 +162,10 @@ controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location'
       password: ''
     };
 
+    if($rootScope){
+      console.log('AuthController.login $rootScope.errors:',$rootScope);
+    }
+
     $scope.doLogin = function() {
       console.log('AuthController.login', $scope.data);
       var endpoint = 'http://localhost:4001';
@@ -158,11 +179,9 @@ controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location'
         if (data.token) {
           $location.path('/');
           $rootScope.globalUser = data;
-          console.log('success:', data);
           $cookies.putObject('user', data);
         } else {
-          $scope.errors = data.msg;
-          // flash.setMessage(data.msg);
+          $scope.errors = data.message;
         }
       })
       .error(function(data, status, headers, config) {

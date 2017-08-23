@@ -8,11 +8,11 @@ module.exports = function(app, includes) {
     UserModel.create(req.body)
       .then(function(result) {
         console.log('[ROUTE_API_USER] result:',result);
-        res.status(200).send(result);
+        res.status(200).json(result);
       })
       .catch(function(err) {
         console.log('[ROUTE_API_USER] err:',err);
-        res.status(404).send(err);
+        res.status(404).json(err);
       });
   };
 

@@ -9,7 +9,7 @@ exports.checkHeaderToken = function(req, res, next) {
   if (!token) {
     res.status(401).json({
       'success': false,
-      'message': 'Not authorized - No access token'
+      'error': 'Not authorized - No access token'
     });
     return;
   }
@@ -20,7 +20,7 @@ exports.checkHeaderToken = function(req, res, next) {
       if (err) {
         res.status(401).json({
           'success': false,
-          'message': err
+          'error': err
         });
         return;
       }
@@ -46,7 +46,7 @@ exports.checkHeaderToken = function(req, res, next) {
   } catch (e) {
     res.status(500).json({
       'success': false,
-      'message': 'Error during token decoding'
+      'error': 'Error during token decoding'
     });
     return;
   };
@@ -72,7 +72,7 @@ exports.isAuthenticated = function(req, res, next) {
       }
     });
     console.log('[routes/middleware.js] exports.isAuthenticated() req.authenticated:',req.authenticated);
-    console.log('[routes/middleware.js] exports.isAuthenticated() expiry:',moment(decoded.exp).format("DD MMM YYYY hh:mm a"));
+    console.log('[routes/middleware.js] exports.isAuthenticated() expiry:',moment(decoded.exp).format("DD MMM YYYY hh:mm:ss a"));
     return next();
   }
 }
@@ -81,16 +81,16 @@ function verifyUser(decoded, cb) {
   if (decoded) {
     try {
       if (decoded.exp <= Date.now()) {
-        return cb({'error': 'Access token has expired'});
+        return cb({'message': 'Access token has expired'});
       }
       if (decoded.iss === 123456789) { //request from ui
         // req.user = decoded;
         return cb(null, true);
       } else {
-        return cb({'error': 'Unauthorized - User is not valid'});
+        return cb({'message': 'Unauthorized - User is not valid'});
       }
     } catch (e) {
-      return cb({'error': e});
+      return cb({'message': e});
     }
   }
 }

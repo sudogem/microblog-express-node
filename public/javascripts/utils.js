@@ -10,13 +10,14 @@ angular.module('utils.services', [])
           .success(function(data, status, headers, config) {
             if(!data.isAuthorized){
               $rootScope.globalUser = false;
+              $rootScope.errors = 'Access token has expired........';
               $location.path('/login');
             }
           })
           .error(function(data, status, headers, config) {
             $scope.isAuthorized = false;
             $rootScope.globalUser = false;
-            console.log('[AddNewPostController] error:', data);
+            console.log('[utils.services] isAuthenticated() error:', data);
           });
       }
     }

@@ -23,7 +23,7 @@ module.exports = function(passport) {
             _id: 123456789
           }, done);
         } else {
-          return done(null, {'msg': 'Invalid username/password. Please try again!'});
+          return done(null, {'message': 'Invalid username/password. Please try again!'});
         }
       });
     }
@@ -39,7 +39,7 @@ module.exports = function(passport) {
 
   // create user jwt token
   var createUserToken = function(user) {
-    var expires = moment().add(1, 'minute').valueOf();
+    var expires = moment().add(5, 'seconds').valueOf();
     var payload = {
       iss: user._id,
       exp: expires,

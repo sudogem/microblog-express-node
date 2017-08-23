@@ -9,12 +9,12 @@ module.exports = function(app, includes) {
     PostModel.create(req.body)
       .then(function(result) {
         console.log('[routes/api/post.js] createPost() result:',result);
-        var result = {success:true, post: result};
+        var result = {'success':true, 'post': result};
         res.status(200).json(result);
       })
       .catch(function(err) {
         console.log('[routes/api/post.js] createPost() err:',err.errors);
-        var result = {success: false, error: err.errors};
+        var result = {'success': false, 'error': err.errors};
         res.status(400).json(result);
       });
   };
@@ -24,13 +24,13 @@ module.exports = function(app, includes) {
       .then(function(result){
         console.log('[routes/api/post.js] getPost() result:',result);
         res.json({
-          isAuthorized: (req.authenticated) ? true : false,
-          posts: result
+          'isAuthorized': (req.authenticated) ? true : false,
+          'posts': result
         });
       })
       .catch(function(err){
         console.log('[routes/api/post.js] getPost() err:',err);
-        res.status(500).send(err);
+        res.status(500).json(err);
       });
   };
 
@@ -41,13 +41,13 @@ module.exports = function(app, includes) {
         if(id) console.log('[routes/api/post.js] id:',id);
         console.log('[routes/api/post.js] getPost() result:',result);
         res.json({
-          isAuthorized: (req.authenticated) ? true : false,
-          posts: result
+          'isAuthorized': (req.authenticated) ? true : false,
+          'posts': result
         });
       })
       .catch(function(err){
         console.log('[routes/api/post.js] getPost() err:',err);
-        res.status(500).send(err);
+        res.status(500).json(err);
       });
   };
 
@@ -55,36 +55,36 @@ module.exports = function(app, includes) {
     var postId = req.body._id;
     console.log('[routes/api/post.js] updatePost() req.body:',req.body);
     if (!postId) {
-      return res.status(404).json({'success': false, 'msg': i18n.__('PostIdRequired')});
+      return res.status(404).json({'success': false, 'error': i18n.__('PostIdRequired')});
     }
     PostModel.update(req.body)
       .then(function(result){
         console.log('[routes/api/post.js] updatePost() result:',result);
-        res.status(200).send({success: true, posts: result});
+        res.status(200).json({'success': true, 'posts': result});
       })
       .catch(function(err){
         console.log('[routes/api/post.js] updatePost() err:',err.errors);
-        var result = {success: false, error: (err && err.errors ? err.errors: err)};
-        res.status(500).send(result);
+        var result = {'success': false, 'error': (err && err.errors ? err.errors: err)};
+        res.status(500).json(result);
       });
   };
 
   deletePost = function(req, res) {
     var postId = req.params.id;
     if (!postId) {
-      return res.status(400).json({'success': false, 'msg': i18n.__('PostIdRequired')});
+      return res.status(400).json({'success': false, 'error': i18n.__('PostIdRequired')});
     }
     PostModel.delete(postId)
       .then(function(result){
         console.log('[routes/api/post.js] deletePost result:',result);
         if (result === null) {
-          return res.status(404).json({'success': false, 'msg': i18n.__('PostNotFound')});
+          return res.status(404).json({'success': false, 'error': i18n.__('PostNotFound')});
         }
-        res.status(200).send(result);
+        res.status(200).json(result);
       })
       .catch(function(err){
         console.log('[routes/api/post.js] deletePost err:',err);
-        res.status(500).send(err);
+        res.status(500).json(err);
       });
   };
 

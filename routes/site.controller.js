@@ -82,7 +82,7 @@ module.exports = function(app, passport){
     })
     .on('fail', function(data, response){
       console.log('auth onFail:',data);
-      res.json({msg: data});
+      res.json({message: data});
     })
     .on('error', function(err, response){
       console.log('auth onError:',err);
@@ -97,7 +97,6 @@ module.exports = function(app, passport){
   router.get('/api/v1/auth/logout',
     function(req, res){
       console.log('logout....');
-      // res.json({msg: 'Successfully logout.'});
       res.redirect('/');
       req.logout();
     });
