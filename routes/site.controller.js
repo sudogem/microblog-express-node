@@ -73,8 +73,8 @@ module.exports = function(app, passport){
     console.log('Checking authentication status...');
     console.log('Date:', new Date());
     console.log('Host:', host);
-    console.log('is_SSL? ', req.secure);
-    console.log('AUTH_URL:', auth_url);
+    console.log('is_SSL:', req.secure);
+    console.log('Auth_url:', auth_url);
     console.log('env:', app.get('env'));
     console.log('===================================================================');
     rest.post(auth_url, {
