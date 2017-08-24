@@ -24,6 +24,8 @@ app.run(['$rootScope', '$window', '$cookies', '$location',
       // console.log('$rootScope.globalUser=', $rootScope.globalUser);
       var allowed = true;
       if (!$rootScope.globalUser) {
+        if ($rootScope.errors)
+          $rootScope.errors = '';
         if (!next.$$route.public) {
           allowed = false;
         }

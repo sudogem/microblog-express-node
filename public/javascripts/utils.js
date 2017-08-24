@@ -10,7 +10,7 @@ angular.module('utils.services', [])
           .success(function(data, status, headers, config) {
             if(!data.isAuthorized){
               $rootScope.globalUser = false;
-              $rootScope.errors = 'Access token has expired........';
+              $rootScope.errors = data.message;
               $location.path('/login');
             }
           })

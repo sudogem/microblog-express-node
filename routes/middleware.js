@@ -64,6 +64,7 @@ exports.isAuthenticated = function(req, res, next) {
       if (err) {
         console.log('[routes/middleware.js] exports.isAuthenticated() err:',err);
         req.user = null;
+        req.error = err; // pass the error to the next request..
         return;
       }
       if (result) {
@@ -81,7 +82,7 @@ function verifyUser(decoded, cb) {
   if (decoded) {
     try {
       if (decoded.exp <= Date.now()) {
-        return cb({'message': 'Access token has expired'});
+        return cb({'message': 'Your session has expired. Please log in again.'});
       }
       if (decoded.iss === 123456789) { //request from ui
         // req.user = decoded;
