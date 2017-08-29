@@ -7,6 +7,10 @@ var bodyParser = require('body-parser');
 var jade = require('jade');
 var pug = require('pug');
 var passport = require('passport');
+var vhost = require('vhost');
+var gulp = require('gulp');
+require('./gulpfile');
+
 var settings = require('./settings');
 
 var app = express();
@@ -25,6 +29,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
+
+// Kick of gulp 'config' task, which generates angular const configuration
+gulp.start('config');
 
 // ****************************************************************************
 // Configuring Passport
@@ -52,6 +59,8 @@ var middleware = require('./routes/middleware.js');
 
 // routes
 app.use('/', routes);
+
+app.use(vhost(settings.baseURLApi, app));
 
 var i18n = require('i18n');
 i18n.configure({

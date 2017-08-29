@@ -14,7 +14,7 @@ exports.checkHeaderToken = function(req, res, next) {
     return;
   }
   try {
-    var decoded = jwt.decode(token, config.jwtTokenSecret);
+    var decoded = jwt.decode(token, config.JWTTokenSecret);
     console.log('[routes/middleware.js] exports.checkHeaderToken() iss:',decoded.iss);
     verifyUser(decoded, function(err, result) {
       if (err) {
@@ -59,7 +59,7 @@ exports.isAuthenticated = function(req, res, next) {
     return next();
   }
   if (token) {
-    var decoded = jwt.decode(token, config.jwtTokenSecret);
+    var decoded = jwt.decode(token, config.JWTTokenSecret);
     verifyUser(decoded, function(err, result) {
       if (err) {
         console.log('[routes/middleware.js] exports.isAuthenticated() err:',err);

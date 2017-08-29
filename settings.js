@@ -1,9 +1,32 @@
+var mongoDbURL;
+var baseURLApi;
+var nodeEnv = process.env.NODE_ENV || 'development';
+
+if (nodeEnv === 'development') {
+  mongoDbURL = process.env.mongoDB_URL_DEV;
+  if (!mongoDbURL) {
+    process.env['mongoDB_URL_DEV'] = 'mongodb://localhost/microblog-express-node-db';
+  }
+  mongoDbURL = process.env.mongoDB_URL_DEV;
+  baseURLApi = process.env.baseURL_API_DEV;
+  if (!baseURLApi) {
+    process.env['baseURL_API_DEV'] = '//local.microblog2.com';
+  }
+} else {
+  mongoDbURL = process.env.mongoDB_URL_PROD;
+  baseURLApi = process.env.OPENSHIFT_APP_DNS || process.env.baseURL_API_PROD;
+  if (!baseURLApi) {
+    process.env['baseURL_API_PROD'] = '//local.microblog2.com';
+  }
+}
+
 module.exports = {
-	mongoDbURL: process.env.mongoDbURL || 'mongodb://localhost/microblog-express-node-db',
-  baseUrlApi:  process.env.OPENSHIFT_APP_DNS || '//localhost:4010',
-  jwtTokenSecret: process.env.jwtTokenSecret || '91fe211053c6377ddfd218a061f96'
+	mongoDbURL: mongoDbURL || 'mongodb://localhost/microblog-express-node-db',
+  baseURLApi:  baseURLApi || '//local.microblog2.com',
+  JWTTokenSecret: process.env.JWTTokenSecret || '91fe211053c6377ddfd218a061f96'
 };
 
+console.log('module.exports:',module.exports);
 // var loggers = require('./middleware/logger');
 var mongoose = require('mongoose');
 

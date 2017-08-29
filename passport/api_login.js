@@ -61,7 +61,7 @@ module.exports = function(passport) {
       payload.admin = true;
     }
 
-    var token = jwt.encode(payload, config.jwtTokenSecret);
+    var token = jwt.encode(payload, config.JWTTokenSecret);
     var email = user.email || '';
     email = email.toLowerCase().trim();
 

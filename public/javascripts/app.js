@@ -1,6 +1,7 @@
 'use strict';
 
 var app = angular.module('app', [
+  'app.config',
   'blog.controllers',
   'flash.services',
   'utils.services',

@@ -2,7 +2,7 @@ angular.module('blog.controllers', []).
 controller('IndexController', function($rootScope, $scope, $http, $cookies, flash, utils) {
   $scope.activeTab = 'home';
   $scope.isAuthorized = false;
-  // console.log('IndexController utils:', utils);
+  // console.log('IndexController env:', env);
   var currentUser = $cookies.getObject('user');
   var token = '';
   if ($rootScope.globalUser || (currentUser && currentUser.token)) {
@@ -155,8 +155,8 @@ controller('DeletePostController', function($rootScope, $scope, $routeParams, $h
     utils.backToHome();
   };
 }).
-controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location', '$cookies', 'flash',
-  function($scope, $rootScope, $http, $location, $cookies, flash) {
+controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location', '$cookies', 'flash', 'appConfig',
+  function($scope, $rootScope, $http, $location, $cookies, flash, appConfig) {
     $scope.data = {
       username: '',
       password: ''
@@ -167,9 +167,8 @@ controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location'
     }
 
     $scope.doLogin = function() {
-      console.log('AuthController.login', $scope.data);
-      var endpoint = 'http://localhost:4001';
-      // var endpoint = 'http://angularblogexpressrev1-sudogem.rhcloud.com';
+      // console.log('AuthController.login', $scope.data);
+      var endpoint = appConfig.baseURLApi;
       $http.post(endpoint + '/api/v1/ui/auth', {
         username: $scope.data.username,
         password: $scope.data.password
@@ -195,11 +194,10 @@ controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location'
     }
 
   }]).
-controller('AuthController.logout', ['$rootScope', '$scope', '$http', '$location', '$cookies', 'flash',
-  function($rootScope, $scope, $http, $location, $cookies, flash){
+controller('AuthController.logout', ['$rootScope', '$scope', '$http', '$location', '$cookies', 'flash', 'appConfig',
+  function($rootScope, $scope, $http, $location, $cookies, flash, appConfig){
     console.log('AuthController.logout');
-    // var endpoint = 'http://localhost:4010';
-    var endpoint = 'http://angularblogexpressrev1-sudogem.rhcloud.com';
+    var endpoint = appConfig.baseURLApi;
     $http.get(endpoint + '/api/v1/auth/logout')
     .success(function(data, status, headers, config) {
       flash.setMessage({msg: 'Successfully logout.'});
