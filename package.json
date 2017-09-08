@@ -24,8 +24,8 @@
     "should": "^11.2.1",
     "supertest": "^3.0.0"
   },
-  "engineStrict" : true,
+  "engineStrict": true,
   "engines": {
-      "node": "^8.1.0"
+    "node": "^8.1.0"
   }
 }
