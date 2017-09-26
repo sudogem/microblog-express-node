@@ -5,9 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var pug = require('pug');
-var routes = require('./routes/index');
+var passport = require('passport');
+// var routes = require('./routes/index');
+var routes = require('./routes/site.controller')(passport);
 var users = require('./routes/users');
+var auth = require('./routes/auth');
 var api = require('./routes/api');
+var middleware = require('./routes/middleware.js');
 
 var app = express();
 
@@ -25,15 +29,26 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
+// ****************************************************************************
+// Configuring Passport
+app.use(passport.initialize());
+// app.use(passport.session());
+
+// Initialize Passport
+// var initPassport = require('./passport/init'); // long version
+// initPassport(passport);
+require('./passport/init')(passport); // short version
+// ****************************************************************************
+
 // routes
 app.use('/', routes);
-app.use('/users', users);
-app.get('/posts', api.posts);
-app.get('/posts/:id', api.edit_post);
-app.put('/posts/:id', api.update_post);
-
-app.post('/posts', api.add_post);
-app.delete('/posts/:id', api.delete_post);
+app.get('/posts', middleware.isAuthenticated, api.posts);
+app.use('/api/v1/auth', auth);
+app.get('/posts/:id', middleware.checkHeaderToken, api.edit_post);
+app.put('/posts/:id', middleware.checkHeaderToken, api.update_post);
+app.post('/posts', middleware.checkHeaderToken, api.add_post);
+app.delete('/posts/:id', middleware.checkHeaderToken, api.delete_post);
+app.use('/user', middleware.isAuthenticated, users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

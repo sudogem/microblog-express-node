@@ -1,0 +1,27 @@
+extend layout
+
+block masterHeader
+  div(class='blog-masthead')
+    div(class='container')
+      nav(class='nav blog-nav')
+        a(class='nav-link' href='#/') Home
+        a(class='nav-link' href='#/add') Add New Post
+
+block header
+  div(class='blog-header')
+    div(class='container')
+      h1(class='blog-title') !{title}
+      p(class='lead blog-description') !{description}
+
+block body
+  div(class='container')
+    div(class='row')
+      div(class='col-sm-8 blog-main')
+        div(ng-view)
+
+      div(class='col-sm-3 offset-sm-1 blog-sidebar')
+
+block footer
+  footer(class='blog-footer')
+    p
+      a(href='/#container') Back to Top

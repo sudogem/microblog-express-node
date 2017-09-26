@@ -1,0 +1,25 @@
+doctype
+html(lang="en")
+  head
+    title= title
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/now-ui-kit.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body(ng-app="blog" id="container")
+    block masterHeader
+    block header
+    block body
+    block footer
+
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    script(src='javascripts/lib/tether.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+
+    script(src='/bower_components/angular/angular.js')
+    script(src='/bower_components/angular-route/angular-route.min.js')
+    script(src='javascripts/app.js')
+    script(src='javascripts/flash.js')
+    script(src='javascripts/services.js')
+    script(src='javascripts/controllers.js')
+    script(src='javascripts/filters.js')
+    script(src='javascripts/directives.js')

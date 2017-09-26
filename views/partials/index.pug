@@ -11,6 +11,6 @@ div(ng-if="(total > 0)")
     h2(class='blog-post-title') {{post.title}}
     p(class='blog-post-meta') {{post.created_at}}
     p {{post.text}}
-    div(class='actionButton')
+    div(ng-if="isAuthorized" class='actionButton')
       a(class='btn btn-info btn-round pad1' href='/#edit_post/{{post.id}}') Edit
       a(class='btn btn-danger btn-round' href='/#delete_post/{{post.id}}') Delete
