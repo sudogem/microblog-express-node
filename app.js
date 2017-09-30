@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 var pug = require('pug');
 var passport = require('passport');
 // var routes = require('./routes/index');
+var gulp = require('gulp');
+require('./gulpfile');
+
 var routes = require('./routes/site.controller')(passport);
 var users = require('./routes/users');
 var auth = require('./routes/auth');
@@ -29,6 +32,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
+// Kick of gulp 'config' task, which generates angular const configuration
+gulp.start('config');
 // ****************************************************************************
 // Configuring Passport
 app.use(passport.initialize());
