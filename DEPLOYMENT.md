@@ -12,4 +12,6 @@ $ cf push app_name -m 512m
 Sample live preview: http://nodeblog-v1.mybluemix.net/#/   
 
 #### How to deploy to OpenShift:   
-Signup OpenShift account here [https://www.openshift.com/]   
+Signup OpenShift v3 account here https://www.openshift.com
+Read the getting started guide here https://docs.openshift.com/online/getting_started/beyond_the_basics.html
+Download and install the OpenShift CLI(oc.zip) https://console.starter-us-west-2.openshift.com/console/command-line
