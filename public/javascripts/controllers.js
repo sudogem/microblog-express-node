@@ -135,9 +135,10 @@ controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location'
     };
 
     $scope.doLogin = function() {
-      console.log('AuthController.login', $scope.data);
-      // var endpoint = 'http://localhost:4010';
-      var endpoint = '//microblog-express.herokuapp.com';
+      var endpoint = 'http://localhost:4010';
+      if ($location['$$host'] !== 'localhost') {
+        endpoint = '//microblog-express.herokuapp.com';
+      }
       $http.post(endpoint + '/api/v1/ui/auth', {
         username: $scope.data.username,
         password: $scope.data.password
@@ -147,7 +148,7 @@ controller('AuthController.login', ['$scope', '$rootScope', '$http', '$location'
         if (data.token) {
           $location.path('/');
           $rootScope.globalUser = data;
-          console.log('success:', data);
+          console.log('AuthController.login success:', data);
           $cookies.putObject('user', data);
         } else {
           $scope.errors = data.msg;

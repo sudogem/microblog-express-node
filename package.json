@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "export NODE_OPTIONS=--openssl-legacy-provider && node ./bin/www",
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider NODE_PORT=4010 && node ./bin/www",
     "test": "mocha"
   },
   "dependencies": {

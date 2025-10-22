@@ -39,6 +39,7 @@ module.exports = function(passport) {
 
   // create user jwt token
   var createUserToken = function(user) {
+    console.log('createUserToken:', user);
     var expires = moment().add(1, 'hour').valueOf();
     var payload = {
       iss: user._id,
@@ -59,14 +60,14 @@ module.exports = function(passport) {
       user: email
     };
 
-    if (user['first_login'] === true) {
-      response.welcome = true;
-    }
+    // if (user['first_login'] === true) {
+    //   response.welcome = true;
+    // }
 
-    if (user['is_admin'] === true) {
-      response.admin = true;
-    }
-    // console.log('createUserToken:',response);
+    // if (user['is_admin'] === true) {
+    //   response.admin = true;
+    // }
+    console.log('createUserToken response:',response);
     return response;
   };
 };
